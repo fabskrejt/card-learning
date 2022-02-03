@@ -29,6 +29,7 @@ function App() {
                 <Route path='registration' element={<RegistrationPage/>}/>
                 <Route path='change' element={<ChangePasswordPage/>}/>
                 <Route path='recovery' element={<RecoveryPasswordPage/>}/>
+                <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
             </Routes>
         </div>
     );
