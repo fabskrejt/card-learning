@@ -1,6 +1,10 @@
 import {combineReducers, createStore} from "redux";
+import {profileReducer} from "./profileReducer";
+import {loginReducer} from "./loginReducer";
 
 const reducers = combineReducers({
+profile: profileReducer,
+    login: loginReducer,
 
 })
 
