@@ -1,4 +1,5 @@
-export const loginReducer = (state: any, action: any) => {
+const initialState = {}
+export const loginReducer = (state: any = initialState, action: any) => {
     switch (action.type) {
         default:
             return state
