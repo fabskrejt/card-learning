@@ -9,7 +9,7 @@ export const PreviewCommonComponents =()=>{
         <div>
             <SuperInputText/>
             <SuperButton>Button</SuperButton>
-            <SuperCheckbox>Checkbox</SuperCheckbox>
+            <SuperCheckbox> Checkbox</SuperCheckbox>
             <SuperEditableSpan/>
             <SuperRadio>Radio</SuperRadio>
         </div>

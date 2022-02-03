@@ -1,5 +1,5 @@
 export const RecoveryPasswordPage = ()=>{
     return(
-        <div>RecoveryPasswordPage</div>
+        <h1>RecoveryPasswordPage</h1>
     )
 }
