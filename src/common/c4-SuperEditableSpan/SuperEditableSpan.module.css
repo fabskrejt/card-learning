@@ -1,9 +1,0 @@
-.span {
-    display: inline-block;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.span::before {
-    content: '\1FAB6';
-}

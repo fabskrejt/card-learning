@@ -1,38 +1,38 @@
-import React from 'react';
-import './App.css';
-import {
-    Routes,
-    Route,
-    Link
-} from "react-router-dom"
-import {LoginPage} from "./components/LoginPage";
-import {ProfilePage} from "./components/ProfilePage";
-import {PreviewCommonComponents} from "./components/PreviewCommonComponents";
-import {RegistrationPage} from "./components/RegistrationPage";
-import {ChangePasswordPage} from "./components/ChangePasswordPage";
-import {RecoveryPasswordPage} from "./components/RecoveryPasswordPage";
+import React from "react";
+import styles from "./App.module.scss"
+import {HashRouter, Link, Route, Routes} from "react-router-dom";
+import {LoginPage} from "./components/pages/p1- loginization/l1-login/login-page";
+import {RegistrationPage} from "./components/pages/p1- loginization/l2-registration/registration-page";
+import {ProfilePage} from "./components/pages/p2-profile/profile-page";
+import {CreateNewPassPage} from "./components/pages/p1- loginization/l4-create-new-pass/create-new-pass-page";
+import {PassRecoveryPage} from "./components/pages/p1- loginization/l3-pass-recovery/pass-recovery-page";
+import {Error404Page} from "./components/pages/p3-error/error404-page";
+import {TestPage} from "./components/pages/p4-test/test-page";
 
-function App() {
-    return (<div className={'App'}>
-            <header>
-                <Link to="login"> Login</Link>
-                <Link to="preview"> Preview</Link>
-                <Link to="registration"> Registration</Link>
-                <Link to="change"> Change Password</Link>
-                <Link to="recovery"> Recovery Password</Link>
-                <Link to="/"> ProfilePage</Link>
-            </header>
-            <Routes>
-                <Route path='/' element={<ProfilePage/>}/>
-                <Route path='login' element={<LoginPage/>}/>
-                <Route path='preview' element={<PreviewCommonComponents/>}/>
-                <Route path='registration' element={<RegistrationPage/>}/>
-                <Route path='change' element={<ChangePasswordPage/>}/>
-                <Route path='recovery' element={<RecoveryPasswordPage/>}/>
-                <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
-            </Routes>
+export const App = () => {
+    return (
+        <div className={styles.container}>
+            <HashRouter>
+                <nav>
+                    <Link to={"login"}>Login</Link>
+                    <Link to={"registration"}>Registration</Link>
+                    <Link to={"recovery"}>Recovery pass</Link>
+                    <Link to={"pass"}>New Pass</Link>
+                    <Link to={"error"}>404</Link>
+                    <Link to={"test"}>Test</Link>
+                </nav>
+                <div className={styles.contentContainer}>
+                    <Routes>
+                        <Route path={"login"} element={<LoginPage/>}/>
+                        <Route path={"registration"} element={<RegistrationPage/>}/>
+                        <Route path={"profile"} element={<ProfilePage/>}/>
+                        <Route path={"recovery"} element={<PassRecoveryPage/>}/>
+                        <Route path={"pass"} element={<CreateNewPassPage/>}/>
+                        <Route path={"error"} element={<Error404Page/>}/>
+                        <Route path={"test"} element={<TestPage/>}/>
+                    </Routes>
+                </div>
+            </HashRouter>
         </div>
     );
 }
-
-export default App;
