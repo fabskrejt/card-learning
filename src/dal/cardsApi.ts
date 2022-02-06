@@ -11,9 +11,26 @@ export const authApi = {
     },
     registerUser(email: string, password: string){
         return instance.post<RegisterRequestType>("auth/register", {email, password})
+    },
+    login(email: string, password: string, rememberMe: boolean){
+        return instance.post<LoginRequestType>( "/auth/login",{email, password, rememberMe})
     }
 }
 
 type RegisterRequestType = {
     error?: string
+}
+
+type LoginRequestType = {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+    publicCardPacksCount: number;
+    created: Date;
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean;
+    rememberMe: boolean;
+    error?: string;
 }
