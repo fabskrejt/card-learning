@@ -33,7 +33,6 @@ export const LoginPage = () => {
         onSubmit: (values) => {
             let {email, password, remember} = values
             dispatch(loginTC(email, password, remember))
-            formik.resetForm()
         },
     });
 
