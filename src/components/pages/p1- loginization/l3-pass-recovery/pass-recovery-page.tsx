@@ -1,6 +1,6 @@
 import React from "react"
 import {useFormik} from "formik";
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {passwordRecovery} from "../../../bll/b1-reducers/r3-passwordRecovery/pass-recovery-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../bll/b2-store/store";
@@ -16,6 +16,8 @@ export const PassRecoveryPage = () => {
     const isFetching = useSelector<AppStateType, boolean>(state => state.app.isFetching)
     const passwordRecoveryError = useSelector<AppStateType, string>((state) => state.passwordRecovery.error)
     const email = useSelector<AppStateType, string>((state) => state.passwordRecovery.email)
+    const isLoggedIn = useSelector<AppStateType, boolean>((state => state.login.isLoggedIn))
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -29,9 +31,7 @@ export const PassRecoveryPage = () => {
             dispatch(passwordRecovery(values.email))
         }
     })
-    // const mail = {
-    //     backgroundImage: `url(${mailImg})`,
-    // };
+
     if (isToggleError) {
         return (<div className={styles.forgotPage}>
             <div className={styles.container}>
@@ -42,12 +42,16 @@ export const PassRecoveryPage = () => {
         </div>)
     }
 
-    return (
-        <div className={styles.forgotPage}>
-            {isFetching && <Preloader/>}
-            <div className={styles.container}>
+    if (isLoggedIn) {
+        return <Navigate to={"/profile"}/>
+    }
 
-                <h3 className={styles.title}>Forgot your password?</h3>
+    return (
+        <div className={styles.container}>
+            {isFetching && <Preloader/>}
+            <div className={styles.formContainer}>
+
+                <h2>Forgot your password?</h2>
 
                 <form onSubmit={formik.handleSubmit} className={styles.form}>
                     <SuperInputText
@@ -57,7 +61,7 @@ export const PassRecoveryPage = () => {
                     {formik.touched.email && formik.errors.email ? (
                         <div className={styles.error}>{formik.errors.email}</div>
                     ) : null}
-                    <p className={styles.emailText}>Enter your email address and we will send you further
+                    <p>Enter your email address and we will send you further
                         instructions </p>
                     <div className={styles.block}>
                         <SuperButton

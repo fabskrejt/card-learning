@@ -17,8 +17,8 @@ export const RegistrationPage = () => {
     const registrationError = useSelector<AppStateType, string>(state => state.registration.error)
     const isRegistered = useSelector<AppStateType, boolean>(state => state.registration.isRegistered)
     const isFetching = useSelector<AppStateType, boolean>(state => state.app.isFetching)
+    const isLoggedIn = useSelector<AppStateType, boolean>((state => state.login.isLoggedIn))
 
-    console.log(isFetching)
 
     const formik = useFormik({
         initialValues: {
@@ -42,6 +42,9 @@ export const RegistrationPage = () => {
         }
     })
 
+    if (isLoggedIn) {
+        return <Navigate to={"/profile"}/>
+    }
     if (isRegistered) {
         return <Navigate to={"/login"}/>
     }
