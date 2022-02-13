@@ -1,0 +1,11 @@
+@import "../../c1-styles/sass/variables";
+
+.container{
+  display: flex;
+  a{
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: $secondaryTextColor;
+    margin: 0 5px 0 5px;
+  }
+}

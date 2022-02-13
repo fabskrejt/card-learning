@@ -10,7 +10,6 @@ export const ProfilePage = () => {
     if(!isLoggedIn){
         return <Navigate to={"/login"}/>
     }
-
     return (
         <div>
             ProfilePage

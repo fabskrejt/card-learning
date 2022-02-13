@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {setIsFetchingAC} from "../app/app-reducer";
 import {authApi} from "../../../../dal/cardsApi";
+import {resError} from "../Errors";
 
 
 const initState = {
@@ -77,9 +78,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
             dispatch(setUserDataAC(_id, email, name, avatar, publicCardPacksCount))
         })
         .catch((e) => {
-            const error = e.response
-                ? e.response.data.error
-                : e.message + ', more details in the console'
+            const error = resError(e)
             console.log('Error: ', {...e})
             dispatch(setLoginErrorAC(error))
 

@@ -1,15 +1,15 @@
 import React from "react"
-import SuperInputText from "../../../common/c2-components/c1-SuperInputText/SuperInputText";
-import SuperButton from "../../../common/c2-components/c2-SuperButton/SuperButton";
+import {CustomInput} from "../../../common/c2-components/c1-CustomInput/CustomInput";
+import {CustomButton} from "../../../common/c2-components/c2-CustomButton/CustomButton";
 import SuperCheckbox from "../../../common/c2-components/c3-SuperCheckbox/SuperCheckbox";
 
 export const TestPage = () => {
     return (
         <div>
-            <SuperInputText/>
-            <SuperButton>
+            <CustomInput/>
+            <CustomButton>
                 Click
-            </SuperButton>
+            </CustomButton>
             <SuperCheckbox/>
         </div>
     )

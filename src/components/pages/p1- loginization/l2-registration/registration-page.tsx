@@ -4,11 +4,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {registerUser} from "../../../bll/b1-reducers/r2-registration/registation-reducer";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import SuperInputText from "../../../../common/c2-components/c1-SuperInputText/SuperInputText";
-import SuperButton from "../../../../common/c2-components/c2-SuperButton/SuperButton";
+import {CustomInput} from "../../../../common/c2-components/c1-CustomInput/CustomInput";
+import {CustomButton} from "../../../../common/c2-components/c2-CustomButton/CustomButton";
 import {AppStateType} from "../../../bll/b2-store/store";
 import {Navigate} from "react-router-dom";
 import {Preloader} from "../../../../common/c2-components/c4-Preloader/Preloader";
+import { Title } from "../../../../common/c2-components/c5-Title/Title";
+import {Error} from "../../../../common/c2-components/c8-Error/Error";
 
 export const RegistrationPage = () => {
 
@@ -34,7 +36,8 @@ export const RegistrationPage = () => {
                 .min(8, "Min length 8")
                 .required("Required"),
             passwordConfirm: Yup.string()
-                .oneOf([Yup.ref("password"), null], "Passwords must match"),
+                .oneOf([Yup.ref("password"), null], "Passwords must match")
+                .required("Required"),
         }),
         onSubmit: values => {
             let {email, password} = values
@@ -51,48 +54,47 @@ export const RegistrationPage = () => {
 
     return (
         <div className={styles.container}>
-            <h2>
-                Sing Up
-            </h2>
+
+            <Title text={"Sing Up"}/>
 
             {isFetching && <Preloader/>}
 
             {/*Form and form errors*/}
             <form onSubmit={formik.handleSubmit} className={styles.formContainer}>
-                <SuperInputText
+                <CustomInput
                     type={"text"}
+                    placeholder={'Email'}
+                    labelText={"email"}
+                    errorMessage={formik.touched.email && formik.errors.email ? formik.errors.email : ""}
                     {...formik.getFieldProps("email")}
                 />
-                {formik.touched.email && formik.errors.email ? (
-                    <div className={styles.error}>{formik.errors.email}</div>
-                ) : null}
 
-                <SuperInputText
+                <CustomInput
                     type={"password"}
+                    placeholder={"Password"}
+                    labelText={"password"}
+                    errorMessage={formik.touched.password && formik.errors.password ? formik.errors.password : ""}
                     {...formik.getFieldProps("password")}
                 />
-                {formik.touched.password && formik.errors.password ? (
-                    <div className={styles.error}>{formik.errors.password}</div>
-                ) : null}
 
-                <SuperInputText
+                <CustomInput
                     type={"password"}
+                    placeholder={"Password"}
+                    labelText={"repeat password"}
+                    errorMessage={formik.touched.passwordConfirm && formik.errors.passwordConfirm ? formik.errors.passwordConfirm : ""}
                     {...formik.getFieldProps("passwordConfirm")}
                 />
-                {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? (
-                    <div className={styles.error}>{formik.errors.passwordConfirm}</div>
-                ) : null}
 
-                <SuperButton
+                <CustomButton
                     type={"submit"}
                     disabled={isFetching}
                 >
                     Register
-                </SuperButton>
+                </CustomButton>
             </form>
 
             {/*Request Error*/}
-            {registrationError && <div>{registrationError}</div>}
+            {registrationError && <Error error={registrationError}/>}
         </div>
     )
 }

@@ -1,10 +1,12 @@
 import {Dispatch} from "redux";
 import {authApi} from "../../../../dal/cardsApi";
+import {setIsFetchingAC} from "../app/app-reducer";
 
 const initState = {
-    error: '',
+    error: "",
     isToggleError: false,
-    email: ''
+    email: "",
+    isNewPassCreated: false
 }
 type InitStateType = typeof initState;
 
@@ -26,6 +28,11 @@ export const passwordRecoveryReducer = (state: InitStateType = initState, action
                 ...state,
                 email: action.email
             }
+        case "PASSWORD-RECOVERY-REDUCER/SET-IS-NEW-PASS-CREATED":
+            return {
+                ...state,
+                isNewPassCreated: action.isCreated
+            }
         default:
             return state
     }
@@ -37,18 +44,47 @@ const isToggleErrorAC = (isToggleError: boolean) => ({
 } as const)
 const setEmailAC = (email: string) => ({type: "PASSWORD-RECOVERY-REDUCER/SET-EMAIL", email} as const)
 
+export const setIsNewPassCreatedAC = (isCreated: boolean) => ({
+    type: "PASSWORD-RECOVERY-REDUCER/SET-IS-NEW-PASS-CREATED",
+    isCreated
+} as const)
 
-export const passwordRecovery = (email: string) => async (dispatch: Dispatch) => {
+//THUNK
+export const passwordRecovery = (email: string) => (dispatch: Dispatch) => {
+    dispatch(setIsFetchingAC(true))
+    authApi.passwordRecovery(email)
+        .then((res) => {
+            dispatch(setEmailAC(email))
+            dispatch(isToggleErrorAC(true))
+        })
+        .catch((err: any) => {
+            dispatch(setErrorAC(err.response.data.error))
+            dispatch(setEmailAC(err.response.data.email))
+        })
+        .finally(() => {
+            dispatch(setIsFetchingAC(false))
+        })
+
+
+}
+
+export const setNewPassT = (password: string, resetPasswordToken: string) => async (dispatch: Dispatch) => {
     try {
-        let res = authApi.passwordRecovery(email)
-        dispatch(setEmailAC(email))
-        dispatch(isToggleErrorAC(true))
-    } catch (err: any) {
-        dispatch(isToggleErrorAC(err.response.data.error))
+        dispatch(setIsFetchingAC(true))
+
+        const res = await authApi.createNewPass(password, resetPasswordToken)
+        console.log(res)
+        dispatch(setIsNewPassCreatedAC(true))
+    } catch (e: any) {
+        console.log(e.response.data.error)
+    } finally {
+        dispatch(setIsFetchingAC(false))
     }
+
 }
 
 type setErrorACType = ReturnType<typeof setErrorAC>
 type isToggleErrorACType = ReturnType<typeof isToggleErrorAC>
 type setEmailACType = ReturnType<typeof setEmailAC>
-type ActionType = setErrorACType | isToggleErrorACType | setEmailACType
+type setIsNewPassCreatedAT = ReturnType<typeof setIsNewPassCreatedAC>
+type ActionType = setErrorACType | isToggleErrorACType | setEmailACType | setIsNewPassCreatedAT

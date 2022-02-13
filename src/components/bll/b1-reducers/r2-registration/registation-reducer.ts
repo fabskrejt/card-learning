@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {authApi} from "../../../../dal/cardsApi";
 import {setIsFetchingAC, SetIsFetchingAT} from "../app/app-reducer";
+import {resError} from "../Errors";
 
 
 const initState = {
@@ -66,9 +67,10 @@ export const registerUser = (email: string, password: string) => async (dispatch
 
         dispatch(setIsRegisteredAC(true))
     }
-    catch (err: any){
-        console.log(err.response.data.error)
-        dispatch(setErrorAC(err.response.data.error))
+    catch (e: any){
+        const error = resError(e)
+        console.log('Error: ', {...e})
+        dispatch(setErrorAC(error))
     }
     finally {
         dispatch(setIsFetchingAC(false))

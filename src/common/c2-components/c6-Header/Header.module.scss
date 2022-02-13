@@ -1,0 +1,9 @@
+@import "../../c1-styles/sass/variables";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $primaryColor;
+  padding: 5px;
+}

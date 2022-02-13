@@ -1,0 +1,37 @@
+@import "../../c1-styles/sass/variables";
+
+.container {
+  margin: 0 40px 25px 40px;
+
+  .label {
+    position: relative;
+    left: -17px;
+    margin-bottom: .4rem;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  .customInput {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    border: 1px solid #e3e3e3;
+    border-radius: 30px;
+    font-size: 15px;
+    left: -20px;
+
+    &:focus {
+      border: 1px solid $primaryColor;
+      transition: border .3s;
+    }
+  }
+  .error {
+    position: relative;
+    color: red;
+    font-size: 0.8rem;
+    letter-spacing: .4px;
+  }
+}

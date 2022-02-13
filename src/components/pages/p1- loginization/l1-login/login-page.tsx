@@ -3,13 +3,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../bll/b2-store/store";
 import {useFormik} from "formik";
 import {loginTC} from "../../../bll/b1-reducers/r1-login/login-reduser";
-import SuperInputText from "../../../../common/c2-components/c1-SuperInputText/SuperInputText";
+import {CustomInput} from "../../../../common/c2-components/c1-CustomInput/CustomInput";
 import SuperCheckbox from "../../../../common/c2-components/c3-SuperCheckbox/SuperCheckbox";
-import SuperButton from "../../../../common/c2-components/c2-SuperButton/SuperButton";
+import {CustomButton} from "../../../../common/c2-components/c2-CustomButton/CustomButton";
 import {Preloader} from "../../../../common/c2-components/c4-Preloader/Preloader";
-import {Navigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import styles from "./login-page.module.scss";
 import * as Yup from "yup";
+import {Title} from "../../../../common/c2-components/c5-Title/Title";
+import {Error} from "../../../../common/c2-components/c8-Error/Error";
 
 export const LoginPage = () => {
     const isLoggedIn = useSelector<AppStateType, boolean>((state => state.login.isLoggedIn))
@@ -41,35 +43,41 @@ export const LoginPage = () => {
     }
     return (
         <div className={styles.container}>
-            <h2>
-                Sing In
-            </h2>
-            {isFetching && <Preloader/>}
-            <form onSubmit={formik.handleSubmit} className={styles.formContainer}>
-                <SuperInputText
-                    type={"email"}
-                    placeholder={"email"}
-                    {...formik.getFieldProps("email")}
-                />
-                {formik.touched.email && formik.errors.email ? (
-                    <div className={styles.error}>{formik.errors.email}</div>
-                ) : null}
 
-                <SuperInputText
-                    type={"password"}
-                    placeholder={"password"}
-                    {...formik.getFieldProps("password")}
+            <Title text={"Sing In"}/>
+
+            {isFetching && <Preloader/>}
+
+            <form onSubmit={formik.handleSubmit} className={styles.formContainer}>
+                <CustomInput
+                    type={"email"}
+                    placeholder={"Email"}
+                    labelText={"email"}
+                    errorMessage={formik.touched.email && formik.errors.email ? formik.errors.email : ""}
+                    {...formik.getFieldProps("email")}
+
                 />
-                {formik.touched.password && formik.errors.password ? (
-                    <div className={styles.error}>{formik.errors.email}</div>
-                ) : null}
+                <CustomInput
+                    type={"password"}
+                    placeholder={"Password"}
+                    labelText={"password"}
+                    {...formik.getFieldProps("password")}
+                    errorMessage={formik.touched.password && formik.errors.password ? formik.errors.password : ""}
+                />
+
+                <Link className={styles.forgot} to={"/password-recovery"}>Forgot Password</Link>
+
                 <SuperCheckbox
                     type={"remember"}
                     {...formik.getFieldProps("remember")}
-                > Remember</SuperCheckbox>
-                <SuperButton type="submit">Login</SuperButton>
+                >Remember Me</SuperCheckbox>
+                <CustomButton type="submit">Login</CustomButton>
             </form>
-            {loginError && <div>{loginError}</div>}
+            {loginError && <Error error={loginError}/>}
+
+            <p>Don't have an account?</p>
+
+            <Link className={styles.singUp} to={"/registration"}>Sing Up</Link>
         </div>
     )
 }
