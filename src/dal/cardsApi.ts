@@ -35,15 +35,17 @@ export const authApi = {
 }
 
 export const cardPacksApi = {
-    getCardPacks(userId:string) {
+    getCardPacks(userId: string) {
         return instance.get(`/cards/pack?user_id=${userId}`)
     },
-
     createCardsPack(name: string, deckCover: string, privat: boolean) {
         return instance.post("/cards/pack", {cardsPack: {name, deckCover, private: privat}})
     },
     deleteCardsPack(id: string) {
         return instance.delete(`/cards/pack?id=${id}`, {})
+    },
+    changeCardsPackName(_id: string, name:string) {
+        return instance.put(`/cards/pack`, {cardsPack: {_id, name}})
     },
 }
 
