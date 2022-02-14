@@ -34,6 +34,13 @@ export const authApi = {
 
 }
 
+export const cardPacksApi = {
+    getCardPacks() {
+        return instance.get("/cards/pack")
+    },
+}
+
+
 type RegisterRequestType = {
     error?: string
 }
