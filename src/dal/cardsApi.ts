@@ -50,8 +50,11 @@ export const cardPacksApi = {
 }
 
 export const cardsApi = {
-    getCard(Id: string) {
+    getCards(Id: string) {
         return instance.get(`/cards/card?cardsPack_id=${Id}`)
+    },
+    createCard(cardsPack_id: string, question: string, answer: string) {
+        return instance.post(`/cards/card`, {card: {cardsPack_id, question, answer}})
     },
 }
 
