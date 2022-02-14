@@ -1,6 +1,6 @@
 import React from "react"
 import {useSelector} from "react-redux";
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {AppStateType} from "../../bll/b2-store/store";
 
 export const ProfilePage = () => {
@@ -16,6 +16,7 @@ export const ProfilePage = () => {
             <div>
                 {userName}
             </div>
+
         </div>
     )
 }

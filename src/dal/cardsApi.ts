@@ -28,7 +28,7 @@ export const authApi = {
                      <a href='https://leonshus.github.io/Cards/#/new-pass/$token$'>link</a></div>`
         return instance.post("auth/forgot", {email, message})
     },
-    createNewPass(password : string, resetPasswordToken : string) {
+    createNewPass(password: string, resetPasswordToken: string) {
         return instance.post("auth/set-new-password", {password, resetPasswordToken})
     }
 
@@ -37,6 +37,10 @@ export const authApi = {
 export const cardPacksApi = {
     getCardPacks() {
         return instance.get("/cards/pack")
+    },
+
+    createCardsPack(name: string, deckCover: string, privat: boolean) {
+        return instance.post("/cards/pack", {cardsPack: {name, deckCover, private: privat}})
     },
 }
 

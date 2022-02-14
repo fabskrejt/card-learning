@@ -9,7 +9,7 @@ import {PassRecoveryPage} from "./components/pages/p1- loginization/l3-pass-reco
 import {Error404Page} from "./components/pages/p3-error/error404-page";
 import {TestPage} from "./components/pages/p4-test/test-page";
 import {useDispatch, useSelector} from "react-redux";
-import {isAuthUserT, logoutUserT} from "./components/bll/b1-reducers/app/app-reducer";
+import {isAuthUserT} from "./components/bll/b1-reducers/app/app-reducer";
 import {AppStateType} from "./components/bll/b2-store/store";
 import {Preloader} from "./common/c2-components/c4-Preloader/Preloader";
 import {Header} from "./common/c2-components/c6-Header/Header";
