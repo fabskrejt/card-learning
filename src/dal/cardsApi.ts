@@ -56,8 +56,11 @@ export const cardsApi = {
     createCard(cardsPack_id: string, question: string, answer: string) {
         return instance.post(`/cards/card`, {card: {cardsPack_id, question, answer}})
     },
-    deleteCard(id: string) {
-        return instance.delete(`/cards/card?id=${id}`, {})
+    deleteCard(_id: string) {
+        return instance.delete(`/cards/card?id=${_id}`, {})
+    },
+    changeCard(_id: string, question: string, answer: string) {
+        return instance.put(`/cards/card`, {card: {_id, question, answer}})
     },
 }
 
