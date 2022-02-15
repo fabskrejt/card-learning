@@ -31,12 +31,11 @@ export const authApi = {
     createNewPass(password: string, resetPasswordToken: string) {
         return instance.post("auth/set-new-password", {password, resetPasswordToken})
     }
-
 }
 
 export const cardPacksApi = {
-    getCardPacks(userId: string) {
-        return instance.get(`/cards/pack?user_id=${userId}`)
+    getCardPacks(userId: string = '',min:string='',max:string='',sortPacks:string='',page:number=1,pageCount:number = 4) {
+        return instance.get(`/cards/pack?packName=${userId}&user_id=${userId}&min=${min}&max=${max}&sortPacks=${sortPacks}&page=${page}&pageCount=${pageCount}`)
     },
     createCardsPack(name: string, deckCover: string, privat: boolean) {
         return instance.post("/cards/pack", {cardsPack: {name, deckCover, private: privat}})
