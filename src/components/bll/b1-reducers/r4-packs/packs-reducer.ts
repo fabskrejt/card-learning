@@ -1,7 +1,5 @@
 import {Dispatch} from "redux";
-import {setIsFetchingAC} from "../app/app-reducer";
-import {authApi, cardPacksApi} from "../../../../dal/cardsApi";
-import {resError} from "../Errors";
+import {cardPacksApi} from "../../../../dal/cardsApi";
 
 
 const initState = {
@@ -81,12 +79,11 @@ export const createPack = (name: string) => {
     } as const
 }
 
-
 type deletePackAT = ReturnType<typeof deletePack>
-export const deletePack = (max: number) => {
+export const deletePack = (id: string) => {
     return {
-        type: "PACKS-REDUCER/SET-MAX-CARDS-IN-PACK",
-        max,
+        type: "PACKS-REDUCER/DELETE-PACK",
+        id,
     } as const
 }
 
@@ -104,45 +101,4 @@ export const setCardPacksTC = (userId: string, min: string = '', max: string, so
 export const createPackTC = (name: string, deckCover: string = '', privat: boolean) => (dispatch: Dispatch) => {
     cardPacksApi.createCardsPack(name, deckCover, privat)
         .then(() => cardPacksApi.getCardPacks())
-}
-
-type setUserDateAT = ReturnType<typeof setUserDataAC>
-export const setUserDataAC = (_id: string, email: string, name: string, avatar: string, publicCardPacksCount: number) => {
-    return {
-        type: "LOGIN-REDUCER/SET-USER-DATA",
-        payload: {
-            _id,
-            email,
-            name,
-            avatar,
-            publicCardPacksCount
-        },
-    } as const
-}
-
-type setLoginErrorAT = ReturnType<typeof setLoginErrorAC>
-export const setLoginErrorAC = (error: string) => {
-    return {
-        type: "LOGIN-REDUCER/SET-ERROR",
-        error
-    } as const
-}
-
-export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {
-    dispatch(setIsFetchingAC(true))
-    authApi.login(email, password, rememberMe)
-        .then(res => {
-            const {_id, email, name, avatar = "", publicCardPacksCount} = res.data
-            //dispatch(setIsLoggedInAC(true))
-            dispatch(setUserDataAC(_id, email, name, avatar, publicCardPacksCount))
-        })
-        .catch((e) => {
-            const error = resError(e)
-            console.log('Error: ', {...e})
-            dispatch(setLoginErrorAC(error))
-
-        })
-        .finally(() =>
-            dispatch(setIsFetchingAC(false))
-        )
 }

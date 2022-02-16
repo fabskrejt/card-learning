@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { Navigate } from "react-router-dom";
 import {AppStateType} from "../../bll/b2-store/store";
 import {cardPacksApi, cardsApi} from "../../../dal/cardsApi";
-import {setCardPacksTC} from "../../bll/b1-reducers/r4-packs/packs-reduser";
+import {setCardPacksTC} from "../../bll/b1-reducers/r4-packs/packs-reducer";
 
 export const ProfilePage = () => {
     const userName = useSelector<AppStateType, string>(state => state.login.userData.name)
