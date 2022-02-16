@@ -1,5 +1,7 @@
 import {Dispatch} from "redux";
 import {cardPacksApi} from "../../../../dal/cardsApi";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType, store} from "../../b2-store/store";
 
 
 const initState = {
@@ -28,7 +30,7 @@ type InitStateType = typeof initState
 type PacksActionType = setMinCardsInPackAT
     | setMaxCardsInPackAT
     | deletePackAT
-    | setCardPacks
+    | setCardPacksAT
 export const packsReducer = (state: InitStateType = initState, action: PacksActionType): InitStateType => {
     switch (action.type) {
         case "PACKS-REDUCER/SET-MIN-CARDS-IN-PACK":
@@ -64,7 +66,7 @@ export const setMaxCardsInPack = (max: number) => {
     } as const
 }
 
-type setCardPacks = ReturnType<typeof setCardPacks>
+type setCardPacksAT = ReturnType<typeof setCardPacks>
 export const setCardPacks = (cards: Array<CardPacks>) => {
     return {
         type: "PACKS-REDUCER/SET-CARD-PACKS",
@@ -72,6 +74,7 @@ export const setCardPacks = (cards: Array<CardPacks>) => {
     } as const
 }
 
+type CreatePackAT = ReturnType<typeof createPack>
 export const createPack = (name: string) => {
     return {
         type: "PACKS-REDUCER/CREATE-PACK",
@@ -88,17 +91,28 @@ export const deletePack = (id: string) => {
 }
 
 
-export const setCardPacksTC = (userId: string, min: string = '', max: string, sortPacks: string, page: number, pageCount: number) =>
+export const setCardPacksTC = (userId: string, min: number, max: number , sortPacks: string, page: number, pageCount: number) =>
     (dispatch: Dispatch) => {
         cardPacksApi.getCardPacks(userId, min, max, sortPacks, page, pageCount)
-            .then((res) => {debugger
+            .then((res) => {
+                    debugger
                     dispatch(setCardPacks(res.data.cardPacks))
                 }
             )
     }
 
-
-export const createPackTC = (name: string, deckCover: string = '', privat: boolean) => (dispatch: Dispatch) => {
+type  ThunkType = ThunkAction<void, AppStateType, unknown, PacksActionType>
+export const createPackTC = (name: string, deckCover: string = '', privat: boolean): ThunkType => (dispatch, getState) => {
     cardPacksApi.createCardsPack(name, deckCover, privat)
-        .then(() => cardPacksApi.getCardPacks())
+        .then(() => {
+            const state = getState()
+            const userId = state.login.userData._id
+            const min = state.packs.minCardsCount
+            const max = state.packs.maxCardsCount
+            const page = state.packs.page
+            const pageCount = state.packs.pageCount
+            //const sortPacks = state.packs.
+            debugger
+            dispatch(setCardPacksTC(userId, min, max, '', page, pageCount))
+        })
 }

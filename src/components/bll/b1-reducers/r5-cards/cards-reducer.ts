@@ -1,5 +1,7 @@
 import {Dispatch} from "redux";
-import {cardPacksApi, cardsApi} from "../../../../dal/cardsApi";
+import {cardsApi} from "../../../../dal/cardsApi";
+import {AppStateType} from "../../b2-store/store";
+import {ThunkAction} from "redux-thunk";
 
 
 const initState = {
@@ -25,39 +27,38 @@ type Cards = {
     _id: string
 }
 type InitStateType = typeof initState
-type CardsActionType = SetCards
+type CardsActionType = SetCardsAT
 export const cardsReducer = (state: InitStateType = initState, action: CardsActionType): InitStateType => {
     switch (action.type) {
-        case "PACKS-REDUCER/SET-CARDS":
+        case "CARD-REDUCER/SET-CARDS":
             return {
                 ...state, cards: action.cards
             }
-
         default:
             return state
     }
 }
 
-type SetCards = ReturnType<typeof setCards>
+type SetCardsAT = ReturnType<typeof setCards>
 export const setCards = (cards: Array<Cards>) => {
     return {
-        type: "PACKS-REDUCER/SET-CARDS",
+        type: "CARD-REDUCER/SET-CARDS",
         cards,
     } as const
 }
 
-
-export const createPack = (name: string) => {
+type CreateCardAT = ReturnType<typeof createCard>
+export const createCard = (name: string) => {
     return {
-        type: "PACKS-REDUCER/CREATE-PACK",
+        type: "CARD-REDUCER/CREATE-CARD",
         name,
     } as const
 }
 
-type deletePackAT = ReturnType<typeof deletePack>
-export const deletePack = (id: string) => {
+type deleteCardAT = ReturnType<typeof deleteCard>
+export const deleteCard = (id: string) => {
     return {
-        type: "PACKS-REDUCER/DELETE-PACK",
+        type: "CARD-REDUCER/DELETE-CARD",
         id,
     } as const
 }
@@ -73,8 +74,8 @@ export const setCardsTC = (cardsPackID:string) =>
             )
     }
 
-
-export const createPackTC = (name: string, deckCover: string = '', privat: boolean) => (dispatch: Dispatch) => {
-    cardPacksApi.createCardsPack(name, deckCover, privat)
-        .then(() => cardPacksApi.getCardPacks())
+type  ThunkType = ThunkAction<void, AppStateType, unknown, CardsActionType>
+export const createCardTC = (cardsPack_id: string, question: string, answer: string):ThunkType => dispatch => {
+    cardsApi.createCard(cardsPack_id,question,answer)
+        .then(() => dispatch(setCardsTC(cardsPack_id)))
 }

@@ -34,7 +34,7 @@ export const authApi = {
 }
 
 export const cardPacksApi = {
-    getCardPacks(userId: string = '',min:string='',max:string='',sortPacks:string='',page:number=1,pageCount:number = 4) {
+    getCardPacks(userId: string = '',min:number=0,max:number=9999,sortPacks:string='',page:number=1,pageCount:number = 4) {
         return instance.get(`/cards/pack?packName=${userId}&user_id=${userId}&min=${min}&max=${max}&sortPacks=${sortPacks}&page=${page}&pageCount=${pageCount}`)
     },
     createCardsPack(name: string, deckCover: string, privat: boolean) {
