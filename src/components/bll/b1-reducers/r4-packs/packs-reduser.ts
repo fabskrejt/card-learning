@@ -5,16 +5,32 @@ import {resError} from "../Errors";
 
 
 const initState = {
-    cardPacks:[],
+    cardPacks: [{}],
     cardPacksTotalCount: 3,
     maxCardsCount: 9999,
     minCardsCount: 0,
     page: 1,
-    pageCount:4
+    pageCount: 4
 }
-
+type Card = {
+    _id: string
+    user_id: string
+    name: string
+    path?: string
+    cardsCount: number
+    grade?: number
+    shots?: number
+    rating?: number
+    type?: string
+    created: string
+    updated: string
+    __v?: number
+}
 type InitStateType = typeof initState
-type PacksActionType = setMinCardsInPackAT | setMaxCardsInPackAT |deletePackAT
+type PacksActionType = setMinCardsInPackAT
+    | setMaxCardsInPackAT
+    | deletePackAT
+    | setCardPacks
 export const packsReducer = (state: InitStateType = initState, action: PacksActionType): InitStateType => {
     switch (action.type) {
         case "PACKS-REDUCER/SET-MIN-CARDS-IN-PACK":
@@ -24,6 +40,10 @@ export const packsReducer = (state: InitStateType = initState, action: PacksActi
         case "PACKS-REDUCER/SET-MAX-CARDS-IN-PACK":
             return {
                 ...state, maxCardsCount: action.max
+            }
+        case "PACKS-REDUCER/SET-CARD-PACKS":
+            return {
+                ...state, cardPacks: action.cards
             }
         default:
             return state
@@ -46,6 +66,14 @@ export const setMaxCardsInPack = (max: number) => {
     } as const
 }
 
+type setCardPacks = ReturnType<typeof setCardPacks>
+export const setCardPacks = (cards: Array<Card>) => {
+    return {
+        type: "PACKS-REDUCER/SET-CARD-PACKS",
+        cards,
+    } as const
+}
+
 export const createPack = (name: string) => {
     return {
         type: "PACKS-REDUCER/CREATE-PACK",
@@ -63,10 +91,19 @@ export const deletePack = (max: number) => {
 }
 
 
+export const setCardPacksTC = (userId: string, min: string = '', max: string, sortPacks: string, page: number, pageCount: number) =>
+    (dispatch: Dispatch) => {
+        cardPacksApi.getCardPacks(userId, min, max, sortPacks, page, pageCount)
+            .then((res) => {debugger
+                    dispatch(setCardPacks(res.data.cardPacks))
+                }
+            )
+    }
 
-const createPackTC = (name:string,deckCover:string='',privat:boolean)=>(dispatch:Dispatch)=>{
+
+export const createPackTC = (name: string, deckCover: string = '', privat: boolean) => (dispatch: Dispatch) => {
     cardPacksApi.createCardsPack(name, deckCover, privat)
-        .then(()=>cardPacksApi.getCardPacks())
+        .then(() => cardPacksApi.getCardPacks())
 }
 
 type setUserDateAT = ReturnType<typeof setUserDataAC>
