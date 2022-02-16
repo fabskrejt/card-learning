@@ -10,7 +10,7 @@ const initState = {
     page: 1,
     pageCount: 4
 }
-type Card = {
+type CardPacks = {
     _id: string
     user_id: string
     name: string
@@ -65,7 +65,7 @@ export const setMaxCardsInPack = (max: number) => {
 }
 
 type setCardPacks = ReturnType<typeof setCardPacks>
-export const setCardPacks = (cards: Array<Card>) => {
+export const setCardPacks = (cards: Array<CardPacks>) => {
     return {
         type: "PACKS-REDUCER/SET-CARD-PACKS",
         cards,
