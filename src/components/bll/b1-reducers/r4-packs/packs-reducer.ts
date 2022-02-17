@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {cardPacksApi} from "../../../../dal/cardsApi";
 import {ThunkAction} from "redux-thunk";
-import {AppStateType, store} from "../../b2-store/store";
+import {AppStateType} from "../../b2-store/store";
 
 
 const initState = {
@@ -113,6 +113,20 @@ export const createPackTC = (name: string, deckCover: string = '', privat: boole
             const pageCount = state.packs.pageCount
             //const sortPacks = state.packs.
             debugger
+            dispatch(setCardPacksTC(userId, min, max, '', page, pageCount))
+        })
+}
+
+export const deletePackTC = (packId:string): ThunkType => (dispatch, getState) => {
+    cardPacksApi.deleteCardsPack(packId)
+        .then(() => {
+            const state = getState()
+            const userId = state.login.userData._id
+            const min = state.packs.minCardsCount
+            const max = state.packs.maxCardsCount
+            const page = state.packs.page
+            const pageCount = state.packs.pageCount
+            //const sortPacks = state.packs.
             dispatch(setCardPacksTC(userId, min, max, '', page, pageCount))
         })
 }

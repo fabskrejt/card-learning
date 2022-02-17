@@ -68,7 +68,6 @@ export const setCardsTC = (cardsPackID:string) =>
     (dispatch: Dispatch) => {
         cardsApi.getCards(cardsPackID)
             .then((res) => {
-                    debugger
                     dispatch(setCards(res.data.cardPacks))
                 }
             )
@@ -79,3 +78,17 @@ export const createCardTC = (cardsPack_id: string, question: string, answer: str
     cardsApi.createCard(cardsPack_id,question,answer)
         .then(() => dispatch(setCardsTC(cardsPack_id)))
 }
+
+export const deleteCardTC = (card_id: string): ThunkType =>
+    dispatch => {
+        cardsApi.deleteCard(card_id)
+            .then((res) => dispatch(setCardsTC(res.data.deletedCard.cardsPack_id)))
+    }
+export const changeCardTC = (card_id: string, question: string, answer: string ): ThunkType =>
+    dispatch => {
+        cardsApi.changeCard(card_id,question,answer )
+            .then((res) => {
+                dispatch(setCardsTC(res.data.updatedCard.cardsPack_id))
+            })
+    }
+

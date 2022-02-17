@@ -3,8 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import { Navigate } from "react-router-dom";
 import {AppStateType} from "../../bll/b2-store/store";
 import {cardPacksApi, cardsApi} from "../../../dal/cardsApi";
-import {createPackTC, setCardPacksTC} from "../../bll/b1-reducers/r4-packs/packs-reducer";
-import {createCardTC, setCards, setCardsTC} from "../../bll/b1-reducers/r5-cards/cards-reducer";
+import {createPackTC, deletePackTC, setCardPacksTC} from "../../bll/b1-reducers/r4-packs/packs-reducer";
+import {
+    changeCardTC,
+    createCardTC,
+    deleteCardTC,
+    setCards,
+    setCardsTC
+} from "../../bll/b1-reducers/r5-cards/cards-reducer";
 
 export const ProfilePage = () => {
     const userName = useSelector<AppStateType, string>(state => state.login.userData.name)
@@ -33,6 +39,9 @@ export const ProfilePage = () => {
             <button onClick={()=>dispatch(setCardsTC('620d6dd5f6738a0380969ae4'))}>Thunk Get Cards</button>
             <button onClick={()=>dispatch(createCardTC('620d7d85cc25923d60e735c3', 'zazaza','adadasd'))}>createCardTC</button>
             <button onClick={()=>dispatch(createPackTC('Novoe imya', '',false))}>createPackTC</button>
+            <button onClick={()=>dispatch(deletePackTC('620d8793cc25923d60e735c8'))}>deletePackTC</button>
+            <button onClick={()=>dispatch(deleteCardTC('620d8c7ccc25923d60e735cc'))}>deleteCardTC</button>
+            <button onClick={()=>dispatch(changeCardTC('620e43d8a187db251983429d', 'some question 1', 'some answer 1'))}>changeCardTC</button>
         </div>
     )
 }
