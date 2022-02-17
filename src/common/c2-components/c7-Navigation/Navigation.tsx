@@ -13,6 +13,7 @@ export const Navigation = () => {
                 <Link to={"error"}>404</Link>
                 <Link to={"test"}>Test</Link>
                 <Link to={"profile"}>Profile</Link>
+                <Link to={"packs-list"}>Pack List</Link>
             </nav>
         </div>
 

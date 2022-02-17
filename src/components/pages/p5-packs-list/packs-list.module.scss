@@ -1,0 +1,50 @@
+@import "../../../common/c1-styles/sass/variables";
+@import "../../../common/c1-styles/sass/mixins";
+
+.container {
+  @include contentBox(row, "", 0);
+  min-height: 80vh;
+  flex-wrap: wrap;
+  h5{
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 34px;
+  }
+  .filterContainer{
+    border-right: 4px solid $primaryColor;
+    padding: 20px;
+    min-width: 200px;
+
+    .showContainer{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin:10px 0 18px 0;
+    }
+    .sliderContainer{
+      margin-bottom: 18px;
+    }
+  }
+  .listContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    .searchContainer{
+      display: flex;
+      align-items: center;
+      button{
+        position: relative;
+        top: -10px;
+      }
+    }
+    .tableContainer{
+      border: 1px solid $primaryColor;
+      border-radius: 10px;
+    }
+    .paginatorContainer{
+      margin-top: 10px;
+    }
+  }
+}

@@ -28,29 +28,30 @@ export const authApi = {
                      <a href='https://leonshus.github.io/Cards/#/new-pass/$token$'>link</a></div>`
         return instance.post("auth/forgot", {email, message})
     },
-    createNewPass(password: string, resetPasswordToken: string) {
+    createNewPass(password : string, resetPasswordToken : string) {
         return instance.post("auth/set-new-password", {password, resetPasswordToken})
     }
+
 }
 
 export const cardPacksApi = {
     getCardPacks(userId: string = '',min:number=0,max:number=9999,sortPacks:string='',page:number=1,pageCount:number = 4) {
         return instance.get(`/cards/pack?packName=${userId}&user_id=${userId}&min=${min}&max=${max}&sortPacks=${sortPacks}&page=${page}&pageCount=${pageCount}`)
     },
-    createCardsPack(name: string, deckCover: string, privat: boolean) {
+    createCardsPack(name: string, deckCover: string='', privat: boolean) {
         return instance.post("/cards/pack", {cardsPack: {name, deckCover, private: privat}})
     },
     deleteCardsPack(id: string) {
         return instance.delete(`/cards/pack?id=${id}`, {})
     },
-    changeCardsPackName(_id: string, name: string) {
+    changeCardsPack(_id: string, name: string) {
         return instance.put(`/cards/pack`, {cardsPack: {_id, name}})
     },
 }
 
 export const cardsApi = {
-    getCards(Id: string) {
-        return instance.get(`/cards/card?cardsPack_id=${Id}`)
+    getCards(cardsPackID: string) {
+        return instance.get(`/cards/card?cardsPack_id=${cardsPackID}`)
     },
     createCard(cardsPack_id: string, question: string, answer: string) {
         return instance.post(`/cards/card`, {card: {cardsPack_id, question, answer}})
@@ -62,7 +63,6 @@ export const cardsApi = {
         return instance.put(`/cards/card`, {card: {_id, question, answer}})
     },
 }
-
 
 type RegisterRequestType = {
     error?: string

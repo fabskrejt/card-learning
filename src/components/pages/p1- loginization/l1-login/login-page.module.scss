@@ -2,7 +2,7 @@
 @import "../../../../common/c1-styles/sass/variables";
 
 .container{
-  @include contentBox();
+  @include contentBox(column, center, 25px);
   .formContainer{
     display: flex;
     flex-direction: column;
