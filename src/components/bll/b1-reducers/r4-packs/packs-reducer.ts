@@ -112,7 +112,7 @@ export const setCardPacksTC = (): ThunkType =>
         const state = getState()
         const userId = state.packs.showAllPacks
             ? ''
-            : state.login.userData._id
+                : state.login.userData._id
         const settings = state.packs.settings
         const {minCardsCount, maxCardsCount, page, pageCount, sortPacks} = settings
 
@@ -144,7 +144,7 @@ export const changePackTC = (packId: string, name: string): ThunkType =>
     dispatch => {
         cardPacksApi.changeCardsPack(packId, name)
             .then(() => {
-                dispatch(setCardPacksTC())
+                dispatch(setCardPacksTC())  
             })
     }
 
@@ -160,7 +160,7 @@ type PacksActionType =
     | SetPageCountAT
     | SetSortPacksAT
 
-type CardPacks = {
+    export type CardPacks = {
     _id: string
     user_id: string
     name: string
@@ -173,4 +173,5 @@ type CardPacks = {
     created: string
     updated: string
     __v?: number
+    user_name: string
 }

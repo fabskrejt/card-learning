@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,6 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {CustomButton} from "../../../../common/c2-components/c2-CustomButton/CustomButton";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../../bll/b2-store/store";
+import {CardPacks, setCardPacksTC} from "../../../bll/b1-reducers/r4-packs/packs-reducer";
+import {setCards, setCardsTC} from "../../../bll/b1-reducers/r5-cards/cards-reducer";
 
 
 
@@ -26,6 +30,11 @@ const rows = [
 ]
 
 export const PackTable = () => {
+    const cardsPack = useSelector<AppStateType, any>((state)=>state.packs.cardPacks)
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(setCardPacksTC())
+    },[])
     return(
         <div>
            <TableContainer>
@@ -40,7 +49,7 @@ export const PackTable = () => {
                        </TableRow>
                    </TableHead>
                    <TableBody>
-                       {rows.map((row, index) => (
+                       {cardsPack.map((row:CardPacks, index:number) => (
                            <TableRow
                                key={index}
                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -48,9 +57,10 @@ export const PackTable = () => {
                                <TableCell component="th" scope="row">
                                    {row.name}
                                </TableCell>
-                               <TableCell align="right">{row.cardsNumber}</TableCell>
-                               <TableCell align="right">{row.lastUpdate}</TableCell>
-                               <TableCell align="right">{row.createdBy}</TableCell>
+
+                               <TableCell align="right">{row.user_name}</TableCell>
+                               <TableCell align="right">{row.updated}</TableCell>
+                               <TableCell align="right">{row.user_name}</TableCell>
                                <TableCell align="right">
                                    <CustomButton>del</CustomButton>
                                </TableCell>
