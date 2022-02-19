@@ -4,8 +4,8 @@ import {AppStateType} from "../../b2-store/store";
 import {ThunkAction} from "redux-thunk";
 
 const initState = {
-    cards: [{}],
-    cardsTotalCount: 3,
+    cards: [],
+    cardsTotalCount: 0,
     maxGrade: 5,
     minGrade: 0,
     page: 1,
@@ -17,7 +17,7 @@ export const cardsReducer = (state: InitStateType = initState, action: CardsActi
     switch (action.type) {
         case "CARD-REDUCER/SET-CARDS":
             return {
-                ...state, cards: action.cards
+                ...state, cards: action.cards, cardsTotalCount: action.cardsTotalCount
             }
         case "CARD-REDUCER/SET-PAGE":
             return {
@@ -33,14 +33,14 @@ export const cardsReducer = (state: InitStateType = initState, action: CardsActi
 }
 
 type SetCardsAT = ReturnType<typeof setCards>
-export const setCards = (cards: Array<Cards>) => {
+export const setCards = (cards: Array<Cards>, cardsTotalCount: number) => {
     return {
         type: "CARD-REDUCER/SET-CARDS",
-        cards,
+        cards, cardsTotalCount
     } as const
 }
 
-type SetCardsPageAT = ReturnType<typeof setCardsPage>
+export type SetCardsPageAT = ReturnType<typeof setCardsPage>
 export const setCardsPage = (page: number) => {
     return {
         type: "CARD-REDUCER/SET-PAGE",
@@ -48,7 +48,7 @@ export const setCardsPage = (page: number) => {
     } as const
 }
 
-type SetCardsPageCountAT = ReturnType<typeof setCardsPageCount>
+export type SetCardsPageCountAT = ReturnType<typeof setCardsPageCount>
 export const setCardsPageCount = (pageCount: number) => {
     return {
         type: "CARD-REDUCER/SET-PAGE-COUNT",
@@ -58,10 +58,13 @@ export const setCardsPageCount = (pageCount: number) => {
 
 //Thunks
 export const setCardsTC = (cardsPackID: string): ThunkType =>
-    dispatch => {
-        cardsApi.getCards(cardsPackID)
+    (dispatch, getState: () => AppStateType) => {
+        const pageCount = getState().cards.pageCount
+        const page = getState().cards.page
+        cardsApi.getCards(cardsPackID, pageCount, page)
             .then((res) => {
-                    dispatch(setCards(res.data.cardPacks))
+                    debugger
+                    dispatch(setCards(res.data.cards, res.data.cardsTotalCount))
                 }
             )
     }
@@ -86,14 +89,23 @@ export const changeCardTC = (card_id: string, question: string, answer: string):
     }
 
 //Types
-type InitStateType = typeof initState
+//type InitStateType = typeof initState
+type InitStateType = {
+    cards: Array<Cards>,
+    cardsTotalCount: number,
+    maxGrade: number,
+    minGrade: number,
+    page: number,
+    pageCount: number,
+    packUserId: string
+}
 type CardsActionType =
     SetCardsAT
     | SetCardsPageAT
     | SetCardsPageCountAT
 
 type  ThunkType = ThunkAction<void, AppStateType, unknown, CardsActionType>
-type Cards = {
+export type Cards = {
     answer: string
     question: string
     cardsPack_id: string

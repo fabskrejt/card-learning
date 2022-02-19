@@ -1,18 +1,19 @@
 import React from "react";
 import styles from './Card.module.scss'
 import {useDispatch} from "react-redux";
+import {Cards, changeCardTC, deleteCardTC} from "../../bll/b1-reducers/r5-cards/cards-reducer";
 
 type PropsType = {
-    card: any
+    card: Cards
 }
 export const Card = ({card, ...props}: PropsType) => {
     const dispatch = useDispatch()
 
-    const deleteCardBtn = (cardsPack_id: string, id: string) => {
-       // dispatch(deleteCard(cardsPack_id, id))
+    const deleteCardBtn = (id: string) => {
+        dispatch(deleteCardTC(id))
     }
-    const updateCardBtn = (cardsPack_id: string, id: string) => {
-      //  dispatch(updateCard(cardsPack_id, id))
+    const updateCardBtn = (id: string) => {
+        dispatch(changeCardTC( id,'new', 'new'))
     }
     return (
         <div className={styles.card}>
@@ -21,10 +22,10 @@ export const Card = ({card, ...props}: PropsType) => {
             <div className={styles.updated}>{card.updated.slice(0, 10).split('-').reverse().join('.')}</div>
             <div className={styles.grade}>{card.grade}</div>
             <div>
-                <button onClick={() => deleteCardBtn(card.cardsPack_id, card._id)}>Delete</button>
+                <button onClick={() => deleteCardBtn(card._id)}>Delete</button>
             </div>
             <div>
-                <button onClick={() => updateCardBtn(card.cardsPack_id, card._id)}>Edit</button>
+                <button onClick={() => updateCardBtn(card._id)}>Edit</button>
             </div>
         </div>
     )

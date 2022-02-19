@@ -1,0 +1,21 @@
+@import "../../c1-styles/sass/variables";
+
+.container{
+  .linkElement{
+    background-color: $mainBackground;
+    border: 2px solid $primaryColor;
+    border-radius: 40px;
+    padding: 12px 36px;
+    text-decoration: none;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+    color: $textColor;
+    &:hover {
+      cursor: pointer;
+      background-color: $primaryColor;
+      color: $secondaryTextColor;
+      transition: background-color .5s;
+    }
+  }
+}

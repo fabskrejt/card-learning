@@ -32,7 +32,7 @@ export const registrationReducer = (state: InitStateType = initState, action: Re
 
 type SetErrorAT = ReturnType<typeof setErrorAC>
 export const setErrorAC = (error: string) => {
-    return{
+    return {
         type: "REGISTRATION-REDUCER/SET-ERROR",
         error
     } as const
@@ -40,7 +40,7 @@ export const setErrorAC = (error: string) => {
 
 type SetIsRegisteredAT = ReturnType<typeof setIsRegisteredAC>
 export const setIsRegisteredAC = (isRegistered: boolean) => {
-    return{
+    return {
         type: "REGISTRATION-REDUCER/IS-REGISTERED",
         isRegistered
     } as const
@@ -61,18 +61,17 @@ export const testPing = () => (dispatch: Dispatch<RegistrationDispatchType>) => 
 export const registerUser = (email: string, password: string) => async (dispatch: Dispatch<RegistrationDispatchType>) => {
     dispatch(setErrorAC(""))
     dispatch(setIsFetchingAC(true))
-    try{
+    try {
         let res = await authApi.registerUser(email, password)
         console.log(res)
 
         dispatch(setIsRegisteredAC(true))
-    }
-    catch (e: any){
+    } catch (e: any) {
         const error = resError(e)
-        console.log('Error: ', {...e})
+        console.log("Error: ", {...e})
         dispatch(setErrorAC(error))
-    }
-    finally {
+    } finally {
         dispatch(setIsFetchingAC(false))
     }
 }
+
