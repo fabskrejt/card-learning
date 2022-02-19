@@ -1,6 +1,7 @@
 import {cardPacksApi} from "../../../../dal/cardsApi";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "../../b2-store/store";
+import {setErrorAC} from "../app/app-reducer";
 
 
 const initState = {
@@ -154,6 +155,8 @@ export const setCardPacksTC = (): ThunkType => async (dispatch, getState) => {
         console.log(res)
 
     } catch (e: any) {
+        // @ts-ignore
+        dispatch(setErrorAC(e.response.data.error))
         console.log("Error: ", {...e})
     } finally {
         dispatch(setPackIsFetching(false))

@@ -1,16 +1,17 @@
 import {Dispatch} from "redux";
 import {authApi} from "../../../../dal/cardsApi";
-import {setIsLoggedInAC, setLoginErrorAC, setUserDataAC} from "../r1-login/login-reduser";
+import {setIsLoggedInAC, setUserDataAC} from "../r1-login/login-reduser";
 import {resError} from "../Errors";
 
 
 const initState = {
-    isFetching: false
+    isFetching: false,
+    error: ''
 }
 
 type AppInitStateType = typeof initState
 
-type AppActionType = SetIsFetchingAT
+type AppActionType = SetIsFetchingAT | SetErrorAT
 
 export const appReducer = (state: AppInitStateType = initState, action: AppActionType) => {
     switch (action.type) {
@@ -18,6 +19,10 @@ export const appReducer = (state: AppInitStateType = initState, action: AppActio
             return {
                 ...state,
                 isFetching: action.isFetching
+            }
+        case "APP/SET-ERROR":
+            return {
+                ...state, error: action.error
             }
         default:
             return state
@@ -29,6 +34,14 @@ export const setIsFetchingAC = (isFetching: boolean) => {
     return {
         type: "APP/SET-IS-FETCHING",
         isFetching
+    } as const
+}
+
+export type SetErrorAT = ReturnType<typeof setErrorAC>
+export const setErrorAC = (error: string) => {
+    return {
+        type: "APP/SET-ERROR",
+        error
     } as const
 }
 

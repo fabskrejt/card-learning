@@ -5,3 +5,4 @@ export const resError = (e: any) => {
         : e.message + ", more details in the console"
     return error
 }
+
