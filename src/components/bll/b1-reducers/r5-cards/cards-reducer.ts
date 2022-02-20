@@ -2,6 +2,7 @@ import {Dispatch} from "redux";
 import {cardsApi} from "../../../../dal/cardsApi";
 import {AppStateType} from "../../b2-store/store";
 import {ThunkAction} from "redux-thunk";
+import {setErrorAC} from "../app/app-reducer";
 
 const initState = {
     cards: [],
@@ -66,7 +67,13 @@ export const setCardsTC = (cardsPackID: string): ThunkType =>
                     debugger
                     dispatch(setCards(res.data.cards, res.data.cardsTotalCount))
                 }
-            )
+            ).catch(
+            (e:any)=> {
+                debugger
+                //@ts-ignore
+                dispatch(setErrorAC(e.response.data.error))
+            }
+        )
     }
 
 export const createCardTC = (cardsPack_id: string, question: string, answer: string): ThunkType =>
@@ -79,6 +86,11 @@ export const deleteCardTC = (card_id: string): ThunkType =>
     dispatch => {
         cardsApi.deleteCard(card_id)
             .then((res) => dispatch(setCardsTC(res.data.deletedCard.cardsPack_id)))
+            .catch(            (e:any)=> {
+                debugger
+                //@ts-ignore
+                dispatch(setErrorAC(e.response.data.error))
+            })
     }
 export const changeCardTC = (card_id: string, question: string, answer: string): ThunkType =>
     dispatch => {
