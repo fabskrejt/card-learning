@@ -15,9 +15,9 @@ export const handleActionStatus = (status: StatusType, error: string = '') => {
 }
 
 export const SnackBar = () => {
-const error = useSelector<AppStateType, string>((state)=>state.app.error)
-const dispatch = useDispatch()
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    const error = useSelector<AppStateType, string>((state) => state.app.error)
+    const dispatch = useDispatch()
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
@@ -25,7 +25,7 @@ const dispatch = useDispatch()
     };
 
 
-    return ( // @ts-ignore
+    return (
         <Snackbar open={error !== ''} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                 {error}
