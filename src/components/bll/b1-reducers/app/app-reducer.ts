@@ -4,25 +4,52 @@ import {setIsLoggedInAC, setUserDataAC} from "../r1-login/login-reduser";
 import {resError} from "../Errors";
 
 
+/*const initState = {
+    isFetching: false,
+    error: '',
+    success: '',
+
+}*/
+
+export type PopupMessageType = {
+    type: 'error' | 'success',
+    message: string,
+}
 const initState = {
     isFetching: false,
-    error: ''
+    popupMessages: [] as PopupMessageType[]
 }
 
 type AppInitStateType = typeof initState
 
-type AppActionType = SetIsFetchingAT | SetErrorAT
+type AppActionType = SetIsFetchingAT
+    | SetPopupMessageAT
+|DeletePopupMessageAT
+/*    | SetErrorAT
+    | SetSuccessAT*/
 
-export const appReducer = (state: AppInitStateType = initState, action: AppActionType) => {
+export const appReducer = (state: AppInitStateType = initState, action: AppActionType): AppInitStateType => {
     switch (action.type) {
         case "APP/SET-IS-FETCHING":
             return {
                 ...state,
                 isFetching: action.isFetching
             }
-        case "APP/SET-ERROR":
+        /*        case "APP/SET-ERROR":
+                    return {
+                        ...state, error: action.error
+                    }
+                case "APP/SET-SUCCESS":
+                    return {
+                        ...state, success: action.success
+                    }*/
+        case "APP/SET-POPUP-MESSAGE":
             return {
-                ...state, error: action.error
+                ...state, popupMessages: [...state.popupMessages, action.message]
+            }
+        case "APP/DELETE-POPUP-MESSAGE":
+            return {
+                ...state, popupMessages: action.popupMessages
             }
         default:
             return state
@@ -37,14 +64,36 @@ export const setIsFetchingAC = (isFetching: boolean) => {
     } as const
 }
 
-export type SetErrorAT = ReturnType<typeof setErrorAC>
+/*export type SetErrorAT = ReturnType<typeof setErrorAC>
 export const setErrorAC = (error: string) => {
     return {
         type: "APP/SET-ERROR",
         error
     } as const
 }
+export type SetSuccessAT = ReturnType<typeof setSuccessAC>
+export const setSuccessAC = (success: string) => {
+    return {
+        type: "APP/SET-SUCCESS",
+        success
+    } as const
+}*/
 
+export type SetPopupMessageAT = ReturnType<typeof setPopupMessageAC>
+export const setPopupMessageAC = (message: { type: "error" | "success", message: string }) => {
+    return {
+        type: "APP/SET-POPUP-MESSAGE",
+        message
+    } as const
+}
+
+export type DeletePopupMessageAT = ReturnType<typeof deletePopupMessageAC>
+export const deletePopupMessageAC = (popupMessages: any) => {
+    return {
+        type: "APP/DELETE-POPUP-MESSAGE",
+        popupMessages
+    } as const
+}
 //THUNK
 
 export const isAuthUserT = () => async (dispatch: Dispatch) => {

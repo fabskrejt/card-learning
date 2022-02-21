@@ -2,7 +2,8 @@ import {Dispatch} from "redux";
 import {cardsApi} from "../../../../dal/cardsApi";
 import {AppStateType} from "../../b2-store/store";
 import {ThunkAction} from "redux-thunk";
-import {setErrorAC} from "../app/app-reducer";
+import {setPopupMessageAC, SetPopupMessageAT} from "../app/app-reducer";
+//import {setErrorAC, SetErrorAT} from "../app/app-reducer";
 
 const initState = {
     cards: [],
@@ -68,10 +69,8 @@ export const setCardsTC = (cardsPackID: string): ThunkType =>
                     dispatch(setCards(res.data.cards, res.data.cardsTotalCount))
                 }
             ).catch(
-            (e:any)=> {
-                debugger
-                //@ts-ignore
-                dispatch(setErrorAC(e.response.data.error))
+            (e: any) => {
+               // dispatch(setErrorAC(e.response.data.error))
             }
         )
     }
@@ -86,10 +85,14 @@ export const deleteCardTC = (card_id: string): ThunkType =>
     dispatch => {
         cardsApi.deleteCard(card_id)
             .then((res) => dispatch(setCardsTC(res.data.deletedCard.cardsPack_id)))
-            .catch(            (e:any)=> {
-                debugger
-                //@ts-ignore
-                dispatch(setErrorAC(e.response.data.error))
+            .catch((e: any) => {
+              // dispatch(setErrorAC(e.response.data.error))
+                dispatch(setPopupMessageAC(
+                    {
+                        type: 'error',
+                        message: `${e.response.data.error}`
+                    }
+                ))
             })
     }
 export const changeCardTC = (card_id: string, question: string, answer: string): ThunkType =>
@@ -97,6 +100,9 @@ export const changeCardTC = (card_id: string, question: string, answer: string):
         cardsApi.changeCard(card_id, question, answer)
             .then((res) => {
                 dispatch(setCardsTC(res.data.updatedCard.cardsPack_id))
+            })
+            .catch((e: any) => {
+                //dispatch(setErrorAC(e.response.data.error))
             })
     }
 
@@ -116,7 +122,8 @@ type CardsActionType =
     | SetCardsPageAT
     | SetCardsPageCountAT
 
-type  ThunkType = ThunkAction<void, AppStateType, unknown, CardsActionType>
+//type  ThunkType = ThunkAction<void, AppStateType, unknown, CardsActionType| SetErrorAT>
+type  ThunkType = ThunkAction<void, AppStateType, unknown, CardsActionType | SetPopupMessageAT>
 export type Cards = {
     answer: string
     question: string

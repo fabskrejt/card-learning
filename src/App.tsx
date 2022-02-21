@@ -32,8 +32,10 @@ export const App = () => {
 
     return (
         <div className={styles.container}>
-            <SnackBar/>
-            <HashRouter>
+            <SnackBar mes={'ssssssssssssssss'} key={1}/>
+{/*            <SnackBar mes={'11111111111'} key={2}/>
+            <SnackBar mes={'22222'} key={3}/>*/}
+            <HashRouter >
 
                 <Header/>
 

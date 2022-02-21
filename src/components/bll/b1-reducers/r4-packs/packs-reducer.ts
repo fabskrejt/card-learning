@@ -1,7 +1,8 @@
 import {cardPacksApi} from "../../../../dal/cardsApi";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "../../b2-store/store";
-import {setErrorAC} from "../app/app-reducer";
+import {setPopupMessageAC, SetPopupMessageAT} from "../app/app-reducer";
+//import {setErrorAC, SetErrorAT, setSuccessAC} from "../app/app-reducer";
 
 
 const initState = {
@@ -137,7 +138,8 @@ export const setPackIsFetching = (isFetch: boolean) => {
 }
 
 //Thunks
-type  ThunkType = ThunkAction<void, AppStateType, unknown, PacksActionType>
+//type  ThunkType = ThunkAction<void, AppStateType, unknown, PacksActionType | SetErrorAT>
+type  ThunkType = ThunkAction<void, AppStateType, unknown, PacksActionType | SetPopupMessageAT>
 
 export const setCardPacksTC = (): ThunkType => async (dispatch, getState) => {
     const state = getState()
@@ -155,8 +157,13 @@ export const setCardPacksTC = (): ThunkType => async (dispatch, getState) => {
         console.log(res)
 
     } catch (e: any) {
-        // @ts-ignore
-        dispatch(setErrorAC(e.response.data.error))
+        //dispatch(setErrorAC(e.response.data.error))
+        dispatch(setPopupMessageAC(
+            {
+                type: 'error',
+                message: e.response.data.error,
+            }
+        ))
         console.log("Error: ", {...e})
     } finally {
         dispatch(setPackIsFetching(false))
@@ -169,7 +176,17 @@ export const createPackTC = (name: string, deckCover: string, privat: boolean): 
     try {
         let res = await cardPacksApi.createCardsPack(name, deckCover, privat)
         dispatch(setCardPacksTC())
+        debugger
+        dispatch(setPopupMessageAC(
+            {
+                type: 'success',
+                message: `Pack ${res.data.newCardsPack.name} created`
+            }
+        ))
+        //@ts-ignore
+       // dispatch(setSuccessAC(`Pack ${res.data.newCardsPack.name} created`))
     } catch (e: any) {
+        //dispatch(setErrorAC(e.response.data.error))
         console.log("Error: ", {...e})
     } finally {
         dispatch(setPackIsFetching(false))
@@ -183,6 +200,7 @@ export const deletePackTC = (packId: string): ThunkType => async (dispatch) => {
         let res = await cardPacksApi.deleteCardsPack(packId)
         dispatch(setCardPacksTC())
     } catch (e: any) {
+        //dispatch(setErrorAC(e.response.data.error))
         console.log("Error: ", {...e})
     } finally {
         dispatch(setPackIsFetching(false))
@@ -195,6 +213,7 @@ export const changePackTC = (packId: string, name: string): ThunkType => async (
         let res = await cardPacksApi.changeCardsPack(packId, name)
         dispatch(setCardPacksTC())
     } catch (e: any) {
+      //  dispatch(setErrorAC(e.response.data.error))
         console.log("Error: ", {...e})
     } finally {
         dispatch(setPackIsFetching(false))
