@@ -22,9 +22,9 @@ export const SnackBar = () => {
        }
     }
 
-    const res = popupMessages.map(i => <div key={i.message} id={i.message} onClick={(e)=>handleClose(e)}
+    const res = popupMessages.map(i => <div key={i.message} id={i.message} onClick={handleClose}
                                             style={{width: '300px', wordBreak: 'break-all'}}>
-            <Snackbar open={popupMessages[0] !== undefined} autoHideDuration={3000} onClose={(e)=>handleClose(e)}
+            <Snackbar open={popupMessages[0] !== undefined} autoHideDuration={3000} onClose={handleClose}
                       style={{
                           position: "relative",
                           bottom: "24px",
