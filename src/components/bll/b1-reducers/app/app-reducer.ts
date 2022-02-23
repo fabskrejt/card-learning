@@ -12,8 +12,9 @@ import {resError} from "../Errors";
 }*/
 
 export type PopupMessageType = {
-    type: 'error' | 'success',
-    message: string,
+    type: 'error' | 'success'
+    message: string
+    id: string
 }
 const initState = {
     isFetching: false,
@@ -24,9 +25,7 @@ type AppInitStateType = typeof initState
 
 type AppActionType = SetIsFetchingAT
     | SetPopupMessageAT
-|DeletePopupMessageAT
-/*    | SetErrorAT
-    | SetSuccessAT*/
+    | DeletePopupMessageAT
 
 export const appReducer = (state: AppInitStateType = initState, action: AppActionType): AppInitStateType => {
     switch (action.type) {
@@ -35,14 +34,6 @@ export const appReducer = (state: AppInitStateType = initState, action: AppActio
                 ...state,
                 isFetching: action.isFetching
             }
-        /*        case "APP/SET-ERROR":
-                    return {
-                        ...state, error: action.error
-                    }
-                case "APP/SET-SUCCESS":
-                    return {
-                        ...state, success: action.success
-                    }*/
         case "APP/SET-POPUP-MESSAGE":
             return {
                 ...state, popupMessages: [...state.popupMessages, action.message]
@@ -64,23 +55,8 @@ export const setIsFetchingAC = (isFetching: boolean) => {
     } as const
 }
 
-/*export type SetErrorAT = ReturnType<typeof setErrorAC>
-export const setErrorAC = (error: string) => {
-    return {
-        type: "APP/SET-ERROR",
-        error
-    } as const
-}
-export type SetSuccessAT = ReturnType<typeof setSuccessAC>
-export const setSuccessAC = (success: string) => {
-    return {
-        type: "APP/SET-SUCCESS",
-        success
-    } as const
-}*/
-
 export type SetPopupMessageAT = ReturnType<typeof setPopupMessageAC>
-export const setPopupMessageAC = (message: { type: "error" | "success", message: string }) => {
+export const setPopupMessageAC = (message: PopupMessageType) => {
     return {
         type: "APP/SET-POPUP-MESSAGE",
         message

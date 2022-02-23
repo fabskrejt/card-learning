@@ -15,15 +15,15 @@ export const SnackBar = () => {
             return;
         }
         debugger
-       if(event !==null && event !== undefined ){
-           //@ts-ignore
-           const newPopupArr = popupMessages.filter((i) => i.message !== event.currentTarget.id)
-           dispatch(deletePopupMessageAC(newPopupArr))
-       }
+        //if(event !==null && event !== undefined ){
+        //@ts-ignore
+        const newPopupArr = popupMessages.filter((i) => i.id !== event.currentTarget.id)
+        dispatch(deletePopupMessageAC(newPopupArr))
+        //}
     }
 
-    const res = popupMessages.map(i => <div key={i.message} id={i.message} onClick={handleClose}
-                                            style={{width: '300px', wordBreak: 'break-all'}}>
+    const message = popupMessages.map(i => <div key={i.id+i.type} id={i.id} onClick={handleClose}
+                                                style={{width: '300px', wordBreak: 'break-all'}}>
             <Snackbar open={popupMessages[0] !== undefined} autoHideDuration={3000} onClose={handleClose}
                       style={{
                           position: "relative",
@@ -50,7 +50,7 @@ export const SnackBar = () => {
                 right: "auto"
             }
         }>
-            {res}
+            {message}
         </div>
     )
 }

@@ -70,7 +70,6 @@ export const setCardsTC = (cardsPackID: string): ThunkType =>
                 }
             ).catch(
             (e: any) => {
-               // dispatch(setErrorAC(e.response.data.error))
             }
         )
     }
@@ -90,7 +89,8 @@ export const deleteCardTC = (card_id: string): ThunkType =>
                 dispatch(setPopupMessageAC(
                     {
                         type: 'error',
-                        message: `${e.response.data.error}`
+                        message: `${e.response.data.error}`,
+                        id:card_id
                     }
                 ))
             })

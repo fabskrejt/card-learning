@@ -137,8 +137,7 @@ export const setPackIsFetching = (isFetch: boolean) => {
     } as const
 }
 
-//Thunks
-//type  ThunkType = ThunkAction<void, AppStateType, unknown, PacksActionType | SetErrorAT>
+
 type  ThunkType = ThunkAction<void, AppStateType, unknown, PacksActionType | SetPopupMessageAT>
 
 export const setCardPacksTC = (): ThunkType => async (dispatch, getState) => {
@@ -156,13 +155,13 @@ export const setCardPacksTC = (): ThunkType => async (dispatch, getState) => {
         dispatch(setCardPacks(res.data.cardPacks, res.data.cardPacksTotalCount))
         console.log(res)
 
-    } catch (e: any) {
-        //dispatch(setErrorAC(e.response.data.error))
+    } catch (e: any) {debugger
         dispatch(setPopupMessageAC(
             {
                 type: 'error',
                 message: e.response.data.error,
-            }
+                id: e.response.data.in
+                }
         ))
         console.log("Error: ", {...e})
     } finally {
@@ -176,15 +175,13 @@ export const createPackTC = (name: string, deckCover: string, privat: boolean): 
     try {
         let res = await cardPacksApi.createCardsPack(name, deckCover, privat)
         dispatch(setCardPacksTC())
-        debugger
         dispatch(setPopupMessageAC(
             {
                 type: 'success',
-                message: `Pack ${res.data.newCardsPack.name} created`
+                message: `Pack ${res.data.newCardsPack.name} created`,
+                id: res.data.newCardsPack._id
             }
         ))
-        //@ts-ignore
-       // dispatch(setSuccessAC(`Pack ${res.data.newCardsPack.name} created`))
     } catch (e: any) {
         //dispatch(setErrorAC(e.response.data.error))
         console.log("Error: ", {...e})
@@ -198,7 +195,15 @@ export const deletePackTC = (packId: string): ThunkType => async (dispatch) => {
     dispatch(setPackIsFetching(true))
     try {
         let res = await cardPacksApi.deleteCardsPack(packId)
+        dispatch(setPopupMessageAC(
+            {
+                type: 'success',
+                message: `Pack ${res.data.deletedCardsPack.name} deleted`,
+                id: res.data.deletedCardsPack._id
+                 }
+        ))
         dispatch(setCardPacksTC())
+
     } catch (e: any) {
         //dispatch(setErrorAC(e.response.data.error))
         console.log("Error: ", {...e})
