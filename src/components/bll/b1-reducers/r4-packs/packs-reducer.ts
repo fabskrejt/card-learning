@@ -2,6 +2,7 @@ import {cardPacksApi} from "../../../../dal/cardsApi";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "../../b2-store/store";
 import {setPopupMessageAC, SetPopupMessageAT} from "../app/app-reducer";
+import {v1} from "uuid";
 //import {setErrorAC, SetErrorAT, setSuccessAC} from "../app/app-reducer";
 
 
@@ -160,7 +161,7 @@ export const setCardPacksTC = (): ThunkType => async (dispatch, getState) => {
             {
                 type: 'error',
                 message: e.response.data.error,
-                id: e.response.data.in
+                id: v1()
                 }
         ))
         console.log("Error: ", {...e})

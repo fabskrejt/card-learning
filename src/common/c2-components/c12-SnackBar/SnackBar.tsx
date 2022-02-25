@@ -1,5 +1,5 @@
-import React, {SyntheticEvent, useEffect} from "react";
-import {Alert, Snackbar, Stack} from "@mui/material";
+import React, {SyntheticEvent} from "react";
+import {Alert, Snackbar} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../components/bll/b2-store/store";
 import {deletePopupMessageAC, PopupMessageType} from "../../../components/bll/b1-reducers/app/app-reducer";
@@ -10,18 +10,6 @@ export const SnackBar = () => {
     let popupMessages = useSelector<AppStateType, PopupMessageType[]>((state => state.app.popupMessages))
     const dispatch = useDispatch()
 
-    /*    const idPopups = popupMessages.map(i=> i.id)
-        useEffect(()=>{
-            const arrTimeout = idPopups.map((i)=> {
-                setTimeout(() => {
-                    debugger
-                    if (idPopups.includes(i)) {
-                        handleClose(i)
-                    }
-                }, 4000)
-            })
-        },)*/
-
     const handleClose = (event?: SyntheticEvent<Element, Event>| React.SyntheticEvent | Event | React.MouseEvent<HTMLDivElement, MouseEvent>, reason?: string, id?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -31,14 +19,8 @@ export const SnackBar = () => {
             const newPopupArr = popupMessages.filter((i) => i.id !== id)
             dispatch(deletePopupMessageAC(newPopupArr))
         }
-/*        if (event !== null && event !== undefined) {
-            //@ts-ignore
-            const newPopupArr = popupMessages.filter((i) => i.id !== event.currentTarget.id)
-            dispatch(deletePopupMessageAC(newPopupArr))
-        }*/
+
     }
-
-
     // @ts-ignore
     /*    const message = popupMessages.map(i => <div  key={i.id+i.type} id={i.id} onClick={handleClose}
                                                     style={{width: '300px', wordBreak: 'break-all', transition:'10'}}>
@@ -60,7 +42,6 @@ export const SnackBar = () => {
         )*/
 
 
-    // @ts-ignore
     const message = popupMessages.map(i => <Snackbar onClose={(ev, res) => handleClose(ev, res,i.id)}
                                                      open={popupMessages[0] !== undefined} autoHideDuration={3000}
                                                      id={i.id} style={{position: 'relative'}}>

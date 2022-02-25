@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 import {cardsApi} from "../../../../dal/cardsApi";
 import {AppStateType} from "../../b2-store/store";
 import {ThunkAction} from "redux-thunk";
