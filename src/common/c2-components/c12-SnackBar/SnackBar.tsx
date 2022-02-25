@@ -10,7 +10,7 @@ export const SnackBar = () => {
     let popupMessages = useSelector<AppStateType, PopupMessageType[]>((state => state.app.popupMessages))
     const dispatch = useDispatch()
 
-    const handleClose = (event?: SyntheticEvent<Element, Event>| React.SyntheticEvent | Event | React.MouseEvent<HTMLDivElement, MouseEvent>, reason?: string, id?: string) => {
+    const handleClose = (event?: SyntheticEvent<Element, Event>| Event, reason?: string, id?: string) => {
         if (reason === 'clickaway') {
             return;
         }
