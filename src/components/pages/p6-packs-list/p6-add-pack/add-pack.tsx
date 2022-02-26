@@ -11,8 +11,8 @@ type AddPackPropsType = {
     closeModal: () => void
 }
 
-export const AddPack = withModalWindow(({closeModal}:AddPackPropsType) => {
-    
+export const AddPack = withModalWindow(({closeModal}: AddPackPropsType) => {
+
     const dispatch = useDispatch()
     const [name, setName] = useState("")
 
@@ -28,13 +28,13 @@ export const AddPack = withModalWindow(({closeModal}:AddPackPropsType) => {
         closeModal()
     }
 
-    return(
+    return (
         <div className={styles.modalContainer}>
             <Title text={"Create Pack"}/>
 
             <div className={styles.contentContainer}>
                 <CustomInput
-                    labelText={'name'}
+                    labelText={"name"}
                     onChangeText={changeName}
                 />
                 <div className={styles.btnContainer}>

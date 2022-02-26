@@ -1,10 +1,32 @@
 @import "../../../common/c1-styles/sass/mixins";
 @import "../../../common/c1-styles/sass/variables";
+
 .cardsPage {
   border: 4px solid $primaryColor;
   margin-top: 20px;
   border-radius: 15px;
   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
-  min-height: 80vh;
-  min-width: 50%;
+  min-height: 20vh;
+  padding: 15px;
+
+  .block {
+    display: flex;
+    justify-content: center;
+
+    .searchBlock {
+      display: flex;
+    }
+
+  }
+
+  .pagSelectBlock {
+    display: flex;
+    .selectWrapper{
+      margin-left: 10px;
+      display: flex;
+      span{
+        margin-right: 10px;
+      }
+    }
+  }
 }

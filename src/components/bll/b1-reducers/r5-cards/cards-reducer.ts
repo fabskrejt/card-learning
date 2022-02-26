@@ -11,14 +11,16 @@ const initState = {
     minGrade: 0,
     page: 1,
     pageCount: 4,
-    packUserId: ''
+    packUserId: "",
+    isFetching: false,
+    sortCards: ""
 }
 
 export const cardsReducer = (state: InitStateType = initState, action: CardsActionType): InitStateType => {
     switch (action.type) {
         case "CARD-REDUCER/SET-CARDS":
             return {
-                ...state, cards: action.cards, cardsTotalCount: action.cardsTotalCount
+                ...state, cards: action.cards, cardsTotalCount: action.cardsTotalCount, packUserId: action.packUserId
             }
         case "CARD-REDUCER/SET-PAGE":
             return {
@@ -28,20 +30,28 @@ export const cardsReducer = (state: InitStateType = initState, action: CardsActi
             return {
                 ...state, pageCount: action.pageCount
             }
+        case "CARD-REDUCER/SET-CARDS-IS-FETCHING":
+            return {
+                ...state, isFetching: action.isFetch
+            }
+        case "CARD-REDUCER/SET-SORT-CARDS":
+            return {
+                ...state, sortCards: action.sortCards
+            }
         default:
             return state
     }
 }
 
 type SetCardsAT = ReturnType<typeof setCards>
-export const setCards = (cards: Array<Cards>, cardsTotalCount: number) => {
+export const setCards = (cards: Array<Cards>, cardsTotalCount: number, packUserId: string) => {
     return {
         type: "CARD-REDUCER/SET-CARDS",
-        cards, cardsTotalCount
+        cards, cardsTotalCount, packUserId
     } as const
 }
 
-export type SetCardsPageAT = ReturnType<typeof setCardsPage>
+type SetCardsPageAT = ReturnType<typeof setCardsPage>
 export const setCardsPage = (page: number) => {
     return {
         type: "CARD-REDUCER/SET-PAGE",
@@ -49,27 +59,45 @@ export const setCardsPage = (page: number) => {
     } as const
 }
 
-export type SetCardsPageCountAT = ReturnType<typeof setCardsPageCount>
+type SetCardsPageCountAT = ReturnType<typeof setCardsPageCount>
 export const setCardsPageCount = (pageCount: number) => {
     return {
         type: "CARD-REDUCER/SET-PAGE-COUNT",
         pageCount,
     } as const
 }
+type SetCardsIsFetchingAT = ReturnType<typeof setCardsIsFetching>
+export const setCardsIsFetching = (isFetch: boolean) => {
+    return {
+        type: "CARD-REDUCER/SET-CARDS-IS-FETCHING",
+        isFetch
+    } as const
+}
+type setSortCardsAT = ReturnType<typeof setSortCardsAC>
+export const setSortCardsAC = (sortCards: string) => {
+    return {
+        type: "CARD-REDUCER/SET-SORT-CARDS",
+        sortCards
+    } as const
+}
 
 //Thunks
 export const setCardsTC = (cardsPackID: string): ThunkType =>
+
     (dispatch, getState: () => AppStateType) => {
+        dispatch(setCardsIsFetching(true))
         const pageCount = getState().cards.pageCount
         const page = getState().cards.page
-        cardsApi.getCards(cardsPackID, pageCount, page)
+        const sortCards = getState().cards.sortCards
+        cardsApi.getCards(cardsPackID, pageCount, page, sortCards)
             .then((res) => {
-                    dispatch(setCards(res.data.cards, res.data.cardsTotalCount))
+                    dispatch(setCards(res.data.cards, res.data.cardsTotalCount, res.data.packUserId))
+                    dispatch(setCardsIsFetching(false))
                 }
             ).catch((e: any) => {
                 dispatch(setPopupMessageAC(
                     {
-                        type: 'error',
+                        type: "error",
                         message: `${e.response.data.error}`,
                         id: v1()
                     }
@@ -85,7 +113,7 @@ export const createCardTC = (cardsPack_id: string, question: string, answer: str
                 dispatch(setCardsTC(cardsPack_id))
                 dispatch(setPopupMessageAC(
                     {
-                        type: 'success',
+                        type: "success",
                         message: `Card "${res.data.newCard.question}" created`,
                         id: v1()
                     }
@@ -94,7 +122,7 @@ export const createCardTC = (cardsPack_id: string, question: string, answer: str
             .catch((e: any) => {
                 dispatch(setPopupMessageAC(
                     {
-                        type: 'error',
+                        type: "error",
                         message: `${e.response.data.error}`,
                         id: v1()
                     }
@@ -105,11 +133,20 @@ export const createCardTC = (cardsPack_id: string, question: string, answer: str
 export const deleteCardTC = (card_id: string): ThunkType =>
     dispatch => {
         cardsApi.deleteCard(card_id)
-            .then((res) => dispatch(setCardsTC(res.data.deletedCard.cardsPack_id)))
+            .then((res) => {
+                dispatch(setCardsTC(res.data.deletedCard.cardsPack_id))
+                dispatch(setPopupMessageAC(
+                    {
+                        type: "success",
+                        message: `Card "${res.data.deletedCard.question}" deleted`,
+                        id: v1()
+                    }
+                ))
+            })
             .catch((e: any) => {
                 dispatch(setPopupMessageAC(
                     {
-                        type: 'error',
+                        type: "error",
                         message: `${e.response.data.error}`,
                         id: v1()
                     }
@@ -121,11 +158,19 @@ export const changeCardTC = (card_id: string, question: string, answer: string):
         cardsApi.changeCard(card_id, question, answer)
             .then((res) => {
                 dispatch(setCardsTC(res.data.updatedCard.cardsPack_id))
+
+                dispatch(setPopupMessageAC(
+                    {
+                        type: "success",
+                        message: `Pack ${res.data.updatedCard.question} created`,
+                        id: v1()
+                    }
+                ))
             })
             .catch((e: any) => {
                 dispatch(setPopupMessageAC(
                     {
-                        type: 'error',
+                        type: "error",
                         message: `${e.response.data.error}`,
                         id: v1()
                     }
@@ -143,11 +188,16 @@ type InitStateType = {
     page: number,
     pageCount: number,
     packUserId: string
+    isFetching: boolean
+    sortCards: string
 }
 type CardsActionType =
     SetCardsAT
     | SetCardsPageAT
     | SetCardsPageCountAT
+    | SetCardsIsFetchingAT
+    | setSortCardsAT
+
 
 type  ThunkType = ThunkAction<void, AppStateType, unknown, CardsActionType | SetPopupMessageAT>
 export type Cards = {

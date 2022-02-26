@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {authApi} from "../../../../dal/cardsApi";
-import {setIsFetchingAC, SetIsFetchingAT} from "../app/app-reducer";
-import {resError} from "../Errors";
+import {setIsFetchingAC, SetIsFetchingAT, setPopupMessageAC, SetPopupMessageAT} from "../app/app-reducer";
+import {v1} from "uuid";
 
 
 const initState = {
@@ -11,15 +11,10 @@ const initState = {
 
 type InitStateType = typeof initState
 
-type RegistrationActionType = SetErrorAT | SetIsRegisteredAT
+type RegistrationActionType = SetIsRegisteredAT
 
 export const registrationReducer = (state: InitStateType = initState, action: RegistrationActionType) => {
     switch (action.type) {
-        case "REGISTRATION-REDUCER/SET-ERROR":
-            return {
-                ...state,
-                error: action.error
-            }
         case "REGISTRATION-REDUCER/IS-REGISTERED":
             return {
                 ...state,
@@ -28,14 +23,6 @@ export const registrationReducer = (state: InitStateType = initState, action: Re
         default:
             return state
     }
-}
-
-type SetErrorAT = ReturnType<typeof setErrorAC>
-export const setErrorAC = (error: string) => {
-    return {
-        type: "REGISTRATION-REDUCER/SET-ERROR",
-        error
-    } as const
 }
 
 type SetIsRegisteredAT = ReturnType<typeof setIsRegisteredAC>
@@ -49,7 +36,7 @@ export const setIsRegisteredAC = (isRegistered: boolean) => {
 
 //THUNK
 
-type RegistrationDispatchType = RegistrationActionType | SetIsFetchingAT
+type RegistrationDispatchType = RegistrationActionType | SetIsFetchingAT | SetPopupMessageAT
 
 export const testPing = () => (dispatch: Dispatch<RegistrationDispatchType>) => {
     authApi.ping()
@@ -59,17 +46,22 @@ export const testPing = () => (dispatch: Dispatch<RegistrationDispatchType>) => 
 }
 
 export const registerUser = (email: string, password: string) => async (dispatch: Dispatch<RegistrationDispatchType>) => {
-    dispatch(setErrorAC(""))
+
     dispatch(setIsFetchingAC(true))
     try {
         let res = await authApi.registerUser(email, password)
-        console.log(res)
 
         dispatch(setIsRegisteredAC(true))
     } catch (e: any) {
-        const error = resError(e)
         console.log("Error: ", {...e})
-        dispatch(setErrorAC(error))
+
+        dispatch(setPopupMessageAC(
+            {
+                type: "error",
+                message: `${e.response.data.error}`,
+                id: v1()
+            }
+        ))
     } finally {
         dispatch(setIsFetchingAC(false))
     }

@@ -18,7 +18,7 @@ export const PackPaginator = () => {
         dispatch(setPage(page))
     }
 
-    return(
+    return (
         <div className={styles.paginatorContainer}>
 
             <Paginator

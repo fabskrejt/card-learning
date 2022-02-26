@@ -1,39 +1,30 @@
-import * as React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import * as React from "react";
+import FormControl from "@mui/material/FormControl";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../bll/b2-store/store";
-import {setCardsPageCount, SetCardsPageCountAT} from "../../../bll/b1-reducers/r5-cards/cards-reducer";
+import {setCardsPageCount} from "../../../bll/b1-reducers/r5-cards/cards-reducer";
+import NativeSelect from "@mui/material/NativeSelect/NativeSelect";
+import Box from "@mui/material/Box/Box";
 
-export default function SelectVariants() {
+export function CardSelect() {
     const dispatch = useDispatch()
     const pageCount = useSelector<AppStateType, number>((state) => state.cards.pageCount)
-    //const [age, setAge] = React.useState<number>(pageCount);
 
-    const handleChange = (event: SelectChangeEvent) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(setCardsPageCount(Number(event.target.value)))
     };
 
     return (
-        <div>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 50 }}>
-                <InputLabel id="demo-simple-select-standard-label">{pageCount}</InputLabel>
-                <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    onChange={handleChange}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={1}>10</MenuItem>
-                    <MenuItem value={20}>20</MenuItem>
-                    <MenuItem value={30}>30</MenuItem>
-                </Select>
-            </FormControl>
+        <Box sx={{minWidth: 50}}>
+            <FormControl>
+                <NativeSelect
+                    onChange={handleChange} defaultValue={pageCount}>
 
-        </div>
+                    <option value={4}>4</option>
+                    <option value={10}>10</option>
+                    <option value={15}>15</option>
+                </NativeSelect>
+            </FormControl>
+        </Box>
     );
 }

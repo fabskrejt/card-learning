@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
-import {setIsFetchingAC} from "../app/app-reducer";
+import {setIsFetchingAC, setPopupMessageAC} from "../app/app-reducer";
 import {authApi} from "../../../../dal/cardsApi";
-import {resError} from "../Errors";
+import {v1} from "uuid";
 
 
 const initState = {
@@ -17,17 +17,13 @@ const initState = {
 }
 
 type InitStateType = typeof initState
-type LoginActionType = setIsLoggedInAT | setLoginErrorAT | setUserDateAT
+type LoginActionType = setIsLoggedInAT | setUserDateAT
 export const loginReducer = (state: InitStateType = initState, action: LoginActionType): InitStateType => {
     switch (action.type) {
         case "LOGIN-REDUCER/IS-LOGGED-IN":
             return {
                 ...state,
                 isLoggedIn: action.isLoggedIn,
-            }
-        case "LOGIN-REDUCER/SET-ERROR":
-            return {
-                ...state, error: action.error
             }
         case "LOGIN-REDUCER/SET-USER-DATA": {
             return {
@@ -61,13 +57,6 @@ export const setUserDataAC = (_id: string, email: string, name: string, avatar: 
     } as const
 }
 
-type setLoginErrorAT = ReturnType<typeof setLoginErrorAC>
-export const setLoginErrorAC = (error: string) => {
-    return {
-        type: "LOGIN-REDUCER/SET-ERROR",
-        error
-    } as const
-}
 
 export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {
     dispatch(setIsFetchingAC(true))
@@ -78,9 +67,16 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
             dispatch(setUserDataAC(_id, email, name, avatar, publicCardPacksCount))
         })
         .catch((e) => {
-            const error = resError(e)
-            console.log('Error: ', {...e})
-            dispatch(setLoginErrorAC(error))
+
+            console.log("Error: ", {...e})
+
+            dispatch(setPopupMessageAC(
+                {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            ))
 
         })
         .finally(() =>

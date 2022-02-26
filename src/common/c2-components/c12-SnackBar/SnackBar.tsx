@@ -14,22 +14,20 @@ export const SnackBar = () => {
         if (reason === 'clickaway') {
             return;
         }
-        debugger
         if (id) {
             const newPopupArr = popupMessages.filter((i) => i.id !== id)
             dispatch(deletePopupMessageAC(newPopupArr))
         }
-
     }
 
     const message = popupMessages.map(i =>
         <Snackbar
             key={i.id}
             onClose={(ev, res) =>
-                handleClose(ev, res, i.id)}
-            open={popupMessages[0] !== undefined}
-            autoHideDuration={3000}
-            style={{position: 'relative'}}>
+            handleClose(ev, res, i.id)}
+                  open={popupMessages[0] !== undefined}
+                  autoHideDuration={3000}
+                  style={{position: 'relative'}}>
 
             <Alert style={{marginTop: '15px', wordBreak: 'break-all', width: '300px'}} variant={'standard'}
                    onClose={(e) => handleClose(e, '', i.id)} severity={i.type}

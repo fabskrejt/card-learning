@@ -4,7 +4,7 @@ import {AppStateType} from "../../../bll/b2-store/store";
 import {useFormik} from "formik";
 import {loginTC} from "../../../bll/b1-reducers/r1-login/login-reduser";
 import {CustomInput} from "../../../../common/c2-components/c1-CustomInput/CustomInput";
-import SuperCheckbox from "../../../../common/c2-components/c3-SuperCheckbox/SuperCheckbox";
+import {CustomCheckbox} from "../../../../common/c2-components/c3-CustomCheckbox/CustomCheckbox";
 import {CustomButton} from "../../../../common/c2-components/c2-CustomButton/CustomButton";
 import {Preloader} from "../../../../common/c2-components/c4-Preloader/Preloader";
 import {Link, Navigate} from "react-router-dom";
@@ -67,10 +67,10 @@ export const LoginPage = () => {
 
                 <Link className={styles.forgot} to={"/password-recovery"}>Forgot Password</Link>
 
-                <SuperCheckbox
+                <CustomCheckbox
                     type={"remember"}
                     {...formik.getFieldProps("remember")}
-                >Remember Me</SuperCheckbox>
+                >Remember Me</CustomCheckbox>
                 <CustomButton type="submit">Login</CustomButton>
             </form>
             {loginError && <Error error={loginError}/>}

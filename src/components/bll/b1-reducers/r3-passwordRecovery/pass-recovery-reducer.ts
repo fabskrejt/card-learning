@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {authApi} from "../../../../dal/cardsApi";
-import {setIsFetchingAC} from "../app/app-reducer";
+import {setIsFetchingAC, setPopupMessageAC} from "../app/app-reducer";
+import {v1} from "uuid";
 
 const initState = {
     error: "",
@@ -57,9 +58,16 @@ export const passwordRecovery = (email: string) => (dispatch: Dispatch) => {
             dispatch(setEmailAC(email))
             dispatch(isToggleErrorAC(true))
         })
-        .catch((err: any) => {
-            dispatch(setErrorAC(err.response.data.error))
-            dispatch(setEmailAC(err.response.data.email))
+        .catch((e: any) => {
+            console.log("Error: ", {...e})
+
+            dispatch(setPopupMessageAC(
+                {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            ))
         })
         .finally(() => {
             dispatch(setIsFetchingAC(false))
@@ -73,10 +81,17 @@ export const setNewPassT = (password: string, resetPasswordToken: string) => asy
         dispatch(setIsFetchingAC(true))
 
         const res = await authApi.createNewPass(password, resetPasswordToken)
-        console.log(res)
+
         dispatch(setIsNewPassCreatedAC(true))
     } catch (e: any) {
-        console.log(e.response.data.error)
+
+        console.log("Error: ", {...e})
+        dispatch(setPopupMessageAC(
+            {
+                type: "error",
+                message: `${e.response.data.error}`,
+                id: v1()
+            }))
     } finally {
         dispatch(setIsFetchingAC(false))
     }

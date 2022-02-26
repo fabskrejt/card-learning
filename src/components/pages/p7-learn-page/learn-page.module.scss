@@ -1,0 +1,38 @@
+@import "../../../common/c1-styles/sass/variables";
+@import "../../../common/c1-styles/sass/mixins";
+
+.container {
+  @include contentBox(column, center, 10px);
+  min-width: 300px;
+
+  .question {
+    display: flex;
+    margin-bottom: 18px;
+
+    h4 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-left: 10px;
+      letter-spacing: 1px;
+    }
+  }
+
+  .rate {
+    h4 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .rateAnswer {
+      font-size: 1.1rem;
+      margin-bottom: 18px;
+    }
+  }
+}

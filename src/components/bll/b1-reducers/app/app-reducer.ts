@@ -4,23 +4,16 @@ import {setIsLoggedInAC, setUserDataAC} from "../r1-login/login-reduser";
 import {resError} from "../Errors";
 
 
-/*const initState = {
-    isFetching: false,
-    error: '',
-    success: '',
-
-}*/
-
-export type PopupMessageType = {
-    type: 'error' | 'success'
-    message: string
-    id: string
-}
 const initState = {
     isFetching: false,
     popupMessages: [] as PopupMessageType[]
 }
 
+export type PopupMessageType = {
+    type: "error" | "success"
+    message: string
+    id: string
+}
 type AppInitStateType = typeof initState
 
 type AppActionType = SetIsFetchingAT
@@ -93,7 +86,7 @@ export const logoutUserT = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setIsFetchingAC(true))
         const res = await authApi.logout()
-        console.log(res)
+
         dispatch(setIsLoggedInAC(false))
         dispatch(setUserDataAC("", "", "", "", 0))
 

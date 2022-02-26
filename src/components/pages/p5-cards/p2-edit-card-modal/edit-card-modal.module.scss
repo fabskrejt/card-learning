@@ -1,0 +1,9 @@
+@import "../../../../common/c1-styles/sass/mixins";
+
+.modalContainer{
+  @include contentBox(column, center, 25px);
+  background-color: $mainBackground;
+  .btnContainer{
+    display: flex;
+  }
+}

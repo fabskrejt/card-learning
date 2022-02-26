@@ -20,7 +20,6 @@ export const RangeSlider = ({minMax, minMaxCallback}: RangeSliderPropsType) => {
     }
 
 
-    console.log("slider")
     return(
         <div className={styles.container}>
             <Slider

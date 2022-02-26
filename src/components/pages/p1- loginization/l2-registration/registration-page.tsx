@@ -7,9 +7,9 @@ import * as Yup from "yup";
 import {CustomInput} from "../../../../common/c2-components/c1-CustomInput/CustomInput";
 import {CustomButton} from "../../../../common/c2-components/c2-CustomButton/CustomButton";
 import {AppStateType} from "../../../bll/b2-store/store";
-import {Navigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {Preloader} from "../../../../common/c2-components/c4-Preloader/Preloader";
-import { Title } from "../../../../common/c2-components/c5-Title/Title";
+import {Title} from "../../../../common/c2-components/c5-Title/Title";
 import {Error} from "../../../../common/c2-components/c8-Error/Error";
 
 export const RegistrationPage = () => {
@@ -63,7 +63,7 @@ export const RegistrationPage = () => {
             <form onSubmit={formik.handleSubmit} className={styles.formContainer}>
                 <CustomInput
                     type={"text"}
-                    placeholder={'Email'}
+                    placeholder={"Email"}
                     labelText={"email"}
                     errorMessage={formik.touched.email && formik.errors.email ? formik.errors.email : ""}
                     {...formik.getFieldProps("email")}
@@ -92,6 +92,9 @@ export const RegistrationPage = () => {
                     Register
                 </CustomButton>
             </form>
+            <Link to={"/login"}>
+                Try Sing In
+            </Link>
 
             {/*Request Error*/}
             {registrationError && <Error error={registrationError}/>}

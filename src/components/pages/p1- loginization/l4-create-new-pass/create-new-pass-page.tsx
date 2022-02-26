@@ -9,7 +9,7 @@ import {CustomButton} from "../../../../common/c2-components/c2-CustomButton/Cus
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../bll/b2-store/store";
 import {setNewPassT} from "../../../bll/b1-reducers/r3-passwordRecovery/pass-recovery-reducer";
-import { Title } from "../../../../common/c2-components/c5-Title/Title";
+import {Title} from "../../../../common/c2-components/c5-Title/Title";
 
 export const CreateNewPassPage = () => {
 
@@ -28,14 +28,13 @@ export const CreateNewPassPage = () => {
                 .required("Required"),
         }),
         onSubmit: values => {
-            console.log(values.password, resetPasswordToken.token)
 
             resetPasswordToken.token &&
             dispatch(setNewPassT(values.password, resetPasswordToken.token))
         }
     })
 
-    if(isCreatedNewPass){
+    if (isCreatedNewPass) {
         return <Navigate to={"/login"}/>
     }
     return (

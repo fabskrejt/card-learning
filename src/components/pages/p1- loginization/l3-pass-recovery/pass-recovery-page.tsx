@@ -9,7 +9,7 @@ import {CustomInput} from "../../../../common/c2-components/c1-CustomInput/Custo
 import {CustomButton} from "../../../../common/c2-components/c2-CustomButton/CustomButton";
 import {Preloader} from "../../../../common/c2-components/c4-Preloader/Preloader";
 import * as Yup from "yup";
-import { Title } from "../../../../common/c2-components/c5-Title/Title";
+import {Title} from "../../../../common/c2-components/c5-Title/Title";
 import {Error} from "../../../../common/c2-components/c8-Error/Error";
 
 export const PassRecoveryPage = () => {
@@ -37,7 +37,7 @@ export const PassRecoveryPage = () => {
     if (isToggleError) {
         return (<div className={styles.forgotPage}>
             <div className={styles.container}>
-                <div className={styles.img}> </div>
+                <div className={styles.img}>{""}</div>
                 <h3 className={styles.title}>Check Email</h3>
                 <p className={styles.text}>We’ve sent an Email with instructions to {email}</p>
             </div>
@@ -58,7 +58,7 @@ export const PassRecoveryPage = () => {
                 <form onSubmit={formik.handleSubmit} className={styles.form}>
                     <CustomInput
                         type={"text"}
-                        placeholder={'Email'}
+                        placeholder={"Email"}
                         labelText={"email"}
                         errorMessage={formik.touched.email && formik.errors.email ? formik.errors.email : ""}
                         {...formik.getFieldProps("email")}

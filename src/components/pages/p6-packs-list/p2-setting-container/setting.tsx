@@ -19,7 +19,7 @@ export const Setting = () => {
     const selectedBtn = showAllPacks ? "All" : "My"
 
 
-    const setMinMax = (min:number, max:number) => {
+    const setMinMax = (min: number, max: number) => {
         dispatch(setMinMaxCardsInPack(min, max))
     }
 
@@ -28,8 +28,6 @@ export const Setting = () => {
         dispatch(setShowAllPacks(a))
     }
 
-
-    console.log("setting")
 
     return (
         <>
