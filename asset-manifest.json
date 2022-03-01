@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/card-learning/static/css/main.c9a14842.css",
-    "main.js": "/card-learning/static/js/main.9576f107.js",
-    "static/js/787.8eaeb45f.chunk.js": "/card-learning/static/js/787.8eaeb45f.chunk.js",
-    "static/media/checkBox.png": "/card-learning/static/media/checkBox.65527bc89ccaf8ef2bb7.png",
-    "index.html": "/card-learning/index.html",
-    "main.c9a14842.css.map": "/card-learning/static/css/main.c9a14842.css.map",
-    "main.9576f107.js.map": "/card-learning/static/js/main.9576f107.js.map",
-    "787.8eaeb45f.chunk.js.map": "/card-learning/static/js/787.8eaeb45f.chunk.js.map"
+    "main.css": "/Cards/static/css/main.52d00ff8.css",
+    "main.js": "/Cards/static/js/main.3263c0d0.js",
+    "static/js/787.28cb0dcd.chunk.js": "/Cards/static/js/787.28cb0dcd.chunk.js",
+    "index.html": "/Cards/index.html",
+    "main.52d00ff8.css.map": "/Cards/static/css/main.52d00ff8.css.map",
+    "main.3263c0d0.js.map": "/Cards/static/js/main.3263c0d0.js.map",
+    "787.28cb0dcd.chunk.js.map": "/Cards/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c9a14842.css",
-    "static/js/main.9576f107.js"
+    "static/css/main.52d00ff8.css",
+    "static/js/main.3263c0d0.js"
   ]
 }
