@@ -89,6 +89,7 @@ export const setCardsTC = (cardsPackID: string): ThunkType =>
         const pageCount = getState().cards.pageCount
         const page = getState().cards.page
         const sortCards = getState().cards.sortCards
+
         cardsApi.getCards(cardsPackID, pageCount, page, sortCards)
             .then((res) => {
                     dispatch(setCards(res.data.cards, res.data.cardsTotalCount, res.data.packUserId))

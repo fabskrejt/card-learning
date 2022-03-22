@@ -35,9 +35,7 @@ export const App = () => {
         <div className={styles.container}>
             <SnackBar/>
             <HashRouter>
-
                 <Header/>
-
                 <div className={styles.contentContainer}>
                     <Routes>
                         <Route path={"/"} element={<Navigate to={"/login"}/>}/>

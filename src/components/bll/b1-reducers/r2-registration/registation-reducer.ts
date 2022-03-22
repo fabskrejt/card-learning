@@ -34,8 +34,7 @@ export const setIsRegisteredAC = (isRegistered: boolean) => {
 }
 
 
-//THUNK
-
+//THUNKS
 type RegistrationDispatchType = RegistrationActionType | SetIsFetchingAT | SetPopupMessageAT
 
 export const testPing = () => (dispatch: Dispatch<RegistrationDispatchType>) => {
