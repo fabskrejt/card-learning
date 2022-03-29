@@ -10,5 +10,5 @@ Password: 12345678
 ## About
 
 React app with JS/TS, redux, redux-thunk, hooks, 
-function components, axios, formik, yup and other.
+function components, axios, formik, yup, MUI and other.
 
